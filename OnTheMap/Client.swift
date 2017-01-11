@@ -10,11 +10,19 @@ import Foundation
 
 
 class Client: NSObject {
-    func OTMUrlParameter(parameters: [String:AnyObject], withPathExtension: String? = nil) -> URL {
+    //build url by components
+    
+    var Students = [Student]()
+    
+    func OTMUrlParameter(parameters: [String:AnyObject], withPathExtension: String? = nil, withHost: String?) -> URL {
         
         var components = URLComponents()
         components.scheme = Constants.URL.APIScheme
-        components.host = Constants.URL.APIHost
+        if (withHost == "Udacity"){
+            components.host = Constants.URL.APIHostUdacity
+        } else {
+            components.host = Constants.URL.APIHostParse
+        }
         components.path = withPathExtension!
         components.queryItems = [URLQueryItem]()
         
@@ -27,6 +35,7 @@ class Client: NSObject {
         return components.url!
     }
     
+    //return json data
     func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         var parsedResult: AnyObject! = nil
@@ -40,6 +49,24 @@ class Client: NSObject {
         completionHandlerForConvertData(parsedResult, nil)
     }
     
+    //get data
+    func getDataFromParse(){
+        //let parameters = [String: AnyObject]()
+        //let url = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes", withHost: "Parse")
+        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=5")!)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error...
+                print("failed to get data from parse")
+                return
+            }
+            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+        }
+        task.resume()
+    }
+    
     func hardCodedLocationData() -> [[String : AnyObject]] {
         return  [
             [
@@ -49,7 +76,7 @@ class Client: NSObject {
                 "latitude" : 28.1461248 as AnyObject,
                 "longitude" : -82.75676799999999 as AnyObject,
                 "mapString" : "Tarpon Springs, FL" as AnyObject,
-                "mediaURL" : "www.linkedin.com/in/jessicauelmen/en" as AnyObject,
+                "mediaURL" : "http://www.linkedin.com/in/jessicauelmen/en" as AnyObject,
                 "objectId" : "kj18GEaWD8" as AnyObject,
                 "uniqueKey" : 872458750 as AnyObject,
                 "updatedAt" : "2015-03-09T22:07:09.593Z" as AnyObject
@@ -77,7 +104,7 @@ class Client: NSObject {
                 "updatedAt" : "2015-03-10T17:20:31.828Z" as AnyObject
             ]
         ]
-    }
+    }    
 
     
     class func sharedInstance() -> Client {

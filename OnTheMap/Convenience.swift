@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 extension Client{
-    
+    //implement networking code
 }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA1568381E097F740053D821 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1568371E097F740053D821 /* MapViewController.swift */; };
 		FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1568391E097F8F0053D821 /* ListViewController.swift */; };
+		FA720B4A1E25C77800675A1F /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA720B491E25C77800675A1F /* Student.swift */; };
 		FAE9B0E91E0387ED00E1847E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */; };
 		FAE9B0EB1E0387ED00E1847E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B0EA1E0387ED00E1847E /* LoginViewController.swift */; };
 		FAE9B0EE1E0387ED00E1847E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE9B0EC1E0387ED00E1847E /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		FA1568371E097F740053D821 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FA1568391E097F8F0053D821 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		FA720B491E25C77800675A1F /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		FAE9B0E51E0387ED00E1847E /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAE9B0EA1E0387ED00E1847E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				FAE9B1221E04474300E1847E /* Client.swift */,
 				FAE9B1201E0446D500E1847E /* Constants.swift */,
 				FAE9B1241E044B0300E1847E /* SignUpViewController.swift */,
+				FA720B491E25C77800675A1F /* Student.swift */,
 			);
 			name = OTM;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				FAE9B11F1E04469200E1847E /* Convenience.swift in Sources */,
 				FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */,
 				FAE9B0EB1E0387ED00E1847E /* LoginViewController.swift in Sources */,
+				FA720B4A1E25C77800675A1F /* Student.swift in Sources */,
 				FAE9B11A1E04365F00E1847E /* PasswordTextfieldDelegate.swift in Sources */,
 				FAE9B0E91E0387ED00E1847E /* AppDelegate.swift in Sources */,
 				FAE9B1271E04844E00E1847E /* GCDBlackBox.swift in Sources */,

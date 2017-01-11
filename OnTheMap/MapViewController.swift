@@ -17,9 +17,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        
+        //load data
         let locations = hardCodedLocationData()
-        
+        let client = Client.sharedInstance()
+        client.getDataFromParse()
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
         var annotations = [MKPointAnnotation]()

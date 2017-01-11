@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let client = Client.sharedInstance()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -44,9 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if error != nil { // Handle error…
                 return
             }
-            let range = Range(uncheckedBounds: (5, data!.count - 5))
-            let newData = data?.subdata(in: range) /* subset response data! */
-            print(NSString(data: newData!, encoding: String.Encoding.utf8.rawValue)!)
             print("Logout Complete")
         }
         task.resume()

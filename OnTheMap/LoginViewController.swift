@@ -30,7 +30,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func loginButton(_ sender: AnyObject) {
         let parameters = [String: AnyObject]()
-        let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session")
+        let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: "Udacity")
         let request = NSMutableURLRequest(url: urlRequest)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
