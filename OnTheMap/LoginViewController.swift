@@ -11,6 +11,9 @@ import UIKit
 class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var loginButtonOutlet: UIButton!
+    @IBOutlet weak var signIn: UIButton!
+    @IBOutlet weak var facebookLogin: UIButton!
     
     let textFieldDelegatePassword = PasswordTextfieldDelegate()
     let client = Client.sharedInstance()
@@ -29,6 +32,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func loginButton(_ sender: AnyObject) {
+        //make flash??
+        loginButtonOutlet.setTitle("Logging In", for: UIControlState.normal)
+        signIn.isEnabled = false
+        facebookLogin.isEnabled = false
         let parameters = [String: AnyObject]()
         let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: "Udacity")
         let request = NSMutableURLRequest(url: urlRequest)
@@ -39,6 +46,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error…
+                self.loginButtonOutlet.setTitle("Log In Failed, Try Again", for: UIControlState.normal)
                 print(error)
                 return
             }
@@ -48,7 +56,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             let parsedResult: AnyObject
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: newData!, options: .allowFragments) as AnyObject
-                print(parsedResult)
+                //print(parsedResult)
             } catch {
                 let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
                 print(userInfo)
@@ -58,12 +66,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if let keyResult = parsedResult[Constants.ResponseKeys.account] as? [String: AnyObject] {
                 let accountKey = keyResult[Constants.ResponseKeys.key] as! String
                 Constants.User.accountKey = accountKey
-                print(Constants.User.accountKey)
+                //print(Constants.User.accountKey)
             }
             if let sessionResult = parsedResult[Constants.ResponseKeys.session] as? [String: AnyObject] {
                 let sessionID = sessionResult[Constants.ResponseKeys.id] as! String
                 Constants.User.sessionID = sessionID
-                print(Constants.User.sessionID)
+                //print(Constants.User.sessionID)
             }
             
             if ((parsedResult["registered"]) != nil){

@@ -25,7 +25,7 @@ class ListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         //let locations = client.hardCodedLocationData()
         //let locale = indexPath[1]
-        //cell?.textLabel?.text = locations[0,indexPath].firstName
+        cell.textLabel?.text = "hello"
         return cell
     }
     

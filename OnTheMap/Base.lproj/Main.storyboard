@@ -40,7 +40,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0C1-Ia-UjY">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0C1-Ia-UjY" userLabel="Login Button">
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="i1g-Zm-QRb"/>
@@ -86,7 +86,10 @@
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="YrF-sa-I3h" id="sL4-Ip-Vc5"/>
+                        <outlet property="facebookLogin" destination="8eN-Ce-LnT" id="Nkh-Bb-w9R"/>
+                        <outlet property="loginButtonOutlet" destination="0C1-Ia-UjY" id="SUL-xb-itN"/>
                         <outlet property="passwordTextField" destination="py2-c6-MV8" id="gFe-JC-4hh"/>
+                        <outlet property="signIn" destination="0Zz-yD-Aad" id="XtI-tl-WHU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

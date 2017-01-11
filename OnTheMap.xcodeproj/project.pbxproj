@@ -179,9 +179,9 @@
 			children = (
 				FAE9B11C1E04466700E1847E /* AuthorizationViewController.swift */,
 				FAE9B11E1E04469200E1847E /* Convenience.swift */,
-				FAE9B1221E04474300E1847E /* Client.swift */,
 				FAE9B1201E0446D500E1847E /* Constants.swift */,
 				FAE9B1241E044B0300E1847E /* SignUpViewController.swift */,
+				FAE9B1221E04474300E1847E /* Client.swift */,
 				FA720B491E25C77800675A1F /* Student.swift */,
 			);
 			name = OTM;

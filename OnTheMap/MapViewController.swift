@@ -17,10 +17,22 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        //load data
-        let locations = hardCodedLocationData()
+        
+        //let locations = hardCodedLocationData()
         let client = Client.sharedInstance()
-        client.getDataFromParse()
+        var location: [Student] = [Student]()
+        
+        //get data
+        client.getDataFromParse{(response, error) in
+            if (error != nil){
+                if let response = response {
+                    print(response)
+                    location = response as! [Student]
+                }
+            } else {
+                print(error)
+            }
+        }
         // We will create an MKPointAnnotation for each dictionary in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
         var annotations = [MKPointAnnotation]()
@@ -29,20 +41,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
         
-        for dictionary in locations {
-            
+        for dictionary in location {
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
-            let lat = CLLocationDegrees(dictionary["latitude"] as! Double)
-            let long = CLLocationDegrees(dictionary["longitude"] as! Double)
+            let lat = CLLocationDegrees(dictionary.latitude as Float!)
+            let long = CLLocationDegrees(dictionary.longitude as Float!)
             
             // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
-            let first = dictionary["firstName"] as! String
-            let last = dictionary["lastName"] as! String
-            let mediaURL = dictionary["mediaURL"] as! String
-            
+            let first = dictionary.firstName as String!
+            let last = dictionary.lastName as String!
+            let mediaURL = dictionary.mediaUrl as String!
             // Here we create the annotation and set its coordiate, title, and subtitle properties
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
