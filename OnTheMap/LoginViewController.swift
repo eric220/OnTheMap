@@ -32,10 +32,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func loginButton(_ sender: AnyObject) {
-        //make flash??
-        loginButtonOutlet.setTitle("Logging In", for: UIControlState.normal)
-        signIn.isEnabled = false
-        facebookLogin.isEnabled = false
+        //make flash?? Make a UI control function
+        setUIEnable(sender: loginButtonOutlet)
+        
         let parameters = [String: AnyObject]()
         let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: "Udacity")
         let request = NSMutableURLRequest(url: urlRequest)
@@ -87,6 +86,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func loginWithFacebook(_ sender: AnyObject) {
         print("facebookLogin")
+    }
+    
+}
+
+private extension LoginViewController {
+    func setUIEnable(sender: UIButton){
+        if (sender.currentTitle! == "Login"){
+            sender.setTitle("Logging In", for: UIControlState.normal)
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat, .autoreverse], animations: {sender.alpha = 0.2}, completion: nil)
+            passwordTextField.isEnabled = false
+            emailTextField.isEnabled = false
+            signIn.isEnabled = false
+            facebookLogin.isEnabled = false
+        }
     }
     
 }

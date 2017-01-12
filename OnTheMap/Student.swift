@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-struct Student{
+struct Student {
     // MARK: properties
     let objectId: String?
     let uniqueKey: String?
@@ -27,6 +27,7 @@ struct Student{
 
     //build a student
     init(dictionary: [String: AnyObject]){
+        print("making student")
         objectId = dictionary[Constants.ResponseKeys.objectId] as! String?
         uniqueKey = dictionary[Constants.ResponseKeys.uniqueKey] as! String?
         firstName = dictionary[Constants.ResponseKeys.firstName] as! String?

@@ -17,17 +17,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        
-        //let locations = hardCodedLocationData()
+        var location = [Student]()
+        //var location = hardCodedLocationData()
         let client = Client.sharedInstance()
-        var location: [Student] = [Student]()
-        
         //get data
         client.getDataFromParse{(response, error) in
-            if (error != nil){
-                if let response = response {
-                    print(response)
-                    location = response as! [Student]
+            if (error == nil){
+                if let response = response {//I have a response
+                    print(response.count)
+                    //location = response as! [Student]   //response as! [Student] //won't save response to locations
+                    print(location)
                 }
             } else {
                 print(error)
@@ -46,7 +45,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             // This is a version of the Double type.
             let lat = CLLocationDegrees(dictionary.latitude as Float!)
             let long = CLLocationDegrees(dictionary.longitude as Float!)
-            
+            print("HELP")
             // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
