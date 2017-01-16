@@ -50,7 +50,7 @@ class Client: NSObject {
     }
     
     //get data
-    func getDataFromParse(handler:@escaping (_ response: AnyObject?, _ error: NSError?) -> Void){
+    func getDataFromParse(handler:@escaping (_ response: [Student], _ error: NSError?) -> Void){
         //let parameters = [String: AnyObject]()
         //let url = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes", withHost: "Parse")
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=2")!)
@@ -68,7 +68,8 @@ class Client: NSObject {
                 } else {
                     if let results = result?["results"] as? [[String:AnyObject]] {
                         let student = Student.studentsFromResults(results)
-                        handler(student as AnyObject?, nil)
+                        self.Students = student
+                        handler(student, nil)
                     }
                 }
             }

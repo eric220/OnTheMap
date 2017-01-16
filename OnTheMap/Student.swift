@@ -20,14 +20,9 @@ struct Student {
     let mediaUrl: String?
     let latitude: Float?
     let longitude: Float?
-    //let createdAt: Date?
-    //let updatedAt: Date?
-    //let ACL: Bool?
-
 
     //build a student
     init(dictionary: [String: AnyObject]){
-        print("making student")
         objectId = dictionary[Constants.ResponseKeys.objectId] as! String?
         uniqueKey = dictionary[Constants.ResponseKeys.uniqueKey] as! String?
         firstName = dictionary[Constants.ResponseKeys.firstName] as! String?
@@ -36,10 +31,6 @@ struct Student {
         mediaUrl = dictionary[Constants.ResponseKeys.mediaUrl] as! String?
         latitude = dictionary[Constants.ResponseKeys.latitude] as! Float?
         longitude = dictionary[Constants.ResponseKeys.longitude] as! Float?
-        //createdAt = dictionary[Constants.ResponseKeys.uniqueKey] as! Date?
-        //updatedAt = dictionary[Constants.ResponseKeys.uniqueKey] as! Date?
-        //ACL = dictionary[Constants.ResponseKeys.uniqueKey] as! Bool?
-
     }
     
     static func studentsFromResults(_ results: [[String: Any]]) -> [Student]{

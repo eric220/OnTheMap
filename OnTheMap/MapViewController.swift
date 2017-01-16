@@ -10,6 +10,9 @@ import Foundation
 import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
+    
+    var location = [Student]()
+    
     @IBOutlet weak var MapView: MKMapView!
     
     
@@ -17,30 +20,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        var location = [Student]()
         //var location = hardCodedLocationData()
         let client = Client.sharedInstance()
         //get data
         client.getDataFromParse{(response, error) in
             if (error == nil){
-                if let response = response {//I have a response
-                    print(response.count)
-                    //location = response as! [Student]   //response as! [Student] //won't save response to locations
-                    print(location)
-                }
+                self.location = response
+                print("hnhubhy")
+                print(response)
+                self.createMapPoints(dictionary: response)
             } else {
                 print(error)
             }
         }
-        // We will create an MKPointAnnotation for each dictionary in "locations". The
-        // point annotations will be stored in this array, and then provided to the map view.
+    }
+    
+    func createMapPoints(dictionary: [Student]){
+        print(dictionary)
         var annotations = [MKPointAnnotation]()
-        
-        // The "locations" array is loaded with the sample data below. We are using the dictionaries
+        // The "locations" array is loaded with the sample below. We are using the dictionaries
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
-        
-        for dictionary in location {
+        for dictionary in dictionary {
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
             let lat = CLLocationDegrees(dictionary.latitude as Float!)
@@ -48,7 +49,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             print("HELP")
             // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
+            print(coordinate)
             let first = dictionary.firstName as String!
             let last = dictionary.lastName as String!
             let mediaURL = dictionary.mediaUrl as String!
@@ -61,10 +62,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             // Finally we place the annotation in an array of annotations.
             annotations.append(annotation)
         }
-        
-        // When the array is complete, we add the annotations to the map.
+        print(annotations)
         self.MapView.addAnnotations(annotations)
-        
     }
     
     // MARK: - MKMapViewDelegate
