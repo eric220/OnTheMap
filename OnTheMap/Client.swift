@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import MapKit
 
 
-class Client: NSObject {
+class Client: NSObject, MKMapViewDelegate {
     //build url by components
     
     var Students = [Student]()
@@ -53,7 +54,7 @@ class Client: NSObject {
     func getDataFromParse(handler:@escaping (_ response: [Student], _ error: NSError?) -> Void){
         //let parameters = [String: AnyObject]()
         //let url = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes", withHost: "Parse")
-        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=2")!)
+        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=5")!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = URLSession.shared
@@ -76,6 +77,41 @@ class Client: NSObject {
         }
         task.resume()
     }
+    
+    func createMapPoints(dictionary: [Student]) -> [MKPointAnnotation]{
+        var annotations = [MKPointAnnotation]()
+        for dictionary in dictionary {
+            let lat = CLLocationDegrees(dictionary.latitude as Float!)
+            let long = CLLocationDegrees(dictionary.longitude as Float!)
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            let first = (dictionary.firstName as String!)!
+            let last = (dictionary.lastName as String!)!
+            print(last)
+            let mediaURL = dictionary.mediaUrl as String!
+            // Here we create the annotation and set its coordiate, title, and subtitle properties
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(first) \(last)"
+            annotation.subtitle = mediaURL
+            
+            // Finally we place the annotation in an array of annotations.
+            annotations.append(annotation)
+        }
+        return annotations
+    }
+    
+    /*func createStudentList(dictionary: [Student]) {
+        for dictionary in dictionary {
+            let lat = CLLocationDegrees(dictionary.latitude as Float!)
+            let long = CLLocationDegrees(dictionary.longitude as Float!)
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            let first = (dictionary.firstName as String!)!
+            let last = (dictionary.lastName as String!)!
+            print(last)
+            let mediaURL = dictionary.mediaUrl as String!
+            
+        }
+    }*/
 
     class func sharedInstance() -> Client {
         struct Singleton {

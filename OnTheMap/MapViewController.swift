@@ -11,8 +11,6 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-    var location = [Student]()
-    
     @IBOutlet weak var MapView: MKMapView!
     
     
@@ -20,50 +18,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        //var location = hardCodedLocationData()
         let client = Client.sharedInstance()
-        //get data
+        var annotations = [MKPointAnnotation]()
+        //get data and insert to map
         client.getDataFromParse{(response, error) in
             if (error == nil){
-                self.location = response
-                print("hnhubhy")
-                print(response)
-                self.createMapPoints(dictionary: response)
+                annotations = client.createMapPoints(dictionary: response)
+                self.MapView.addAnnotations(annotations)
             } else {
                 print(error)
             }
         }
-    }
-    
-    func createMapPoints(dictionary: [Student]){
-        print(dictionary)
-        var annotations = [MKPointAnnotation]()
-        // The "locations" array is loaded with the sample below. We are using the dictionaries
-        // to create map annotations. This would be more stylish if the dictionaries were being
-        // used to create custom structs. Perhaps StudentLocation structs.
-        for dictionary in dictionary {
-            // Notice that the float values are being used to create CLLocationDegree values.
-            // This is a version of the Double type.
-            let lat = CLLocationDegrees(dictionary.latitude as Float!)
-            let long = CLLocationDegrees(dictionary.longitude as Float!)
-            print("HELP")
-            // The lat and long are used to create a CLLocationCoordinates2D instance.
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            print(coordinate)
-            let first = dictionary.firstName as String!
-            let last = dictionary.lastName as String!
-            let mediaURL = dictionary.mediaUrl as String!
-            // Here we create the annotation and set its coordiate, title, and subtitle properties
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(first) \(last)"
-            annotation.subtitle = mediaURL
-            
-            // Finally we place the annotation in an array of annotations.
-            annotations.append(annotation)
-        }
-        print(annotations)
-        self.MapView.addAnnotations(annotations)
     }
     
     // MARK: - MKMapViewDelegate
@@ -107,49 +72,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    // MARK: - Sample Data
-    
-    // Some sample data. This is a dictionary that is more or less similar to the
-    // JSON data that you will download from Parse.
-    
-    func hardCodedLocationData() -> [[String : AnyObject]] {
-        return  [
-            [
-                "createdAt" : "2015-02-24T22:27:14.456Z" as AnyObject,
-                "firstName" : "Jessica" as AnyObject,
-                "lastName" : "Uelmen" as AnyObject,
-                "latitude" : 28.1461248 as AnyObject,
-                "longitude" : -82.75676799999999 as AnyObject,
-                "mapString" : "Tarpon Springs, FL" as AnyObject,
-                "mediaURL" : "http://www.linkedin.com/in/jessicauelmen/en" as AnyObject,
-                "objectId" : "kj18GEaWD8" as AnyObject,
-                "uniqueKey" : 872458750 as AnyObject,
-                "updatedAt" : "2015-03-09T22:07:09.593Z" as AnyObject
-            ], [
-                "createdAt" : "2015-02-24T22:35:30.639Z" as AnyObject,
-                "firstName" : "Gabrielle" as AnyObject,
-                "lastName" : "Miller-Messner" as AnyObject,
-                "latitude" : 35.1740471 as AnyObject,
-                "longitude" : -79.3922539 as AnyObject,
-                "mapString" : "Southern Pines, NC" as AnyObject,
-                "mediaURL" : "http://www.linkedin.com/pub/gabrielle-miller-messner/11/557/60/en" as AnyObject,
-                "objectId" : "8ZEuHF5uX8" as AnyObject,
-                "uniqueKey" : 225629859 as AnyObject,
-                "updatedAt" : "2015-03-11T03:23:49.582Z" as AnyObject
-            ], [
-                "createdAt" : "2015-02-24T22:30:54.442Z" as AnyObject,
-                "firstName" : "Jason" as AnyObject,
-                "lastName" : "Schatz" as AnyObject,
-                "latitude" : 37.7617 as AnyObject,
-                "longitude" : -122.4216 as AnyObject,
-                "mapString" : "18th and Valencia, San Francisco, CA" as AnyObject,
-                "mediaURL" : "http://en.wikipedia.org/wiki/Swift_%28programming_language%29" as AnyObject,
-                "objectId" : "hiz0vOTmrL" as AnyObject,
-                "uniqueKey" : 236275853 as AnyObject,
-                "updatedAt" : "2015-03-10T17:20:31.828Z" as AnyObject
-            ]
-        ]
-    }
 }
     
     
