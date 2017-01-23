@@ -17,7 +17,7 @@ struct Student {
     let firstName: String?
     let lastName: String?
     let mapString: String?
-    let mediaUrl: String?
+    let mediaURL: String?
     let latitude: Float?
     let longitude: Float?
 
@@ -28,7 +28,7 @@ struct Student {
         firstName = dictionary[Constants.ResponseKeys.firstName] as! String?
         lastName = dictionary[Constants.ResponseKeys.lastName] as! String?
         mapString = dictionary[Constants.ResponseKeys.mapString] as! String?
-        mediaUrl = dictionary[Constants.ResponseKeys.mediaUrl] as! String?
+        mediaURL = dictionary[Constants.ResponseKeys.mediaUrl] as! String?
         latitude = dictionary[Constants.ResponseKeys.latitude] as! Float?
         longitude = dictionary[Constants.ResponseKeys.longitude] as! Float?
     }

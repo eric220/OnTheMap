@@ -40,7 +40,7 @@ struct Constants {
         static let firstName = "firstName"
         static let lastName = "lastName"
         static let mapString = "mapString"
-        static let mediaUrl = "mediaUrl"
+        static let mediaUrl = "mediaURL"
         static let latitude = "latitude"
         static let longitude = "longitude"
         static let createdAt = "createdAt"

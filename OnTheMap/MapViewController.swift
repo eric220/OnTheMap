@@ -29,6 +29,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 print(error)
             }
         }
+        client.getPublicData()
     }
     
     // MARK: - MKMapViewDelegate
@@ -64,7 +65,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if let toOpen = view.annotation?.subtitle! {
                 let url = URL(string: toOpen)!
                 if (app.canOpenURL(url)){
-                    app.open(url)
+                    print(url)
+                     app.open(url)
                 } else {
                     print("cannot open url")
                 }

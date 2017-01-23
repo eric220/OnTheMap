@@ -11,10 +11,11 @@ import MapKit
 
 
 class Client: NSObject, MKMapViewDelegate {
-    //build url by components
     
     var Students = [Student]()
     
+    
+    //build url by components
     func OTMUrlParameter(parameters: [String:AnyObject], withPathExtension: String? = nil, withHost: String?) -> URL {
         
         var components = URLComponents()
@@ -78,6 +79,32 @@ class Client: NSObject, MKMapViewDelegate {
         task.resume()
     }
     
+    func getPublicData()/*handler:@escaping (_ response: [Student], _ error: NSError?) -> Void)*/{
+        //let parameters = [String: AnyObject]()
+        //let url = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes", withHost: "Parse")
+        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/users/\(Constants.User.accountKey)")!)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            if error != nil { // Handle error...
+                print("failed to get data from parse")
+                return
+            }
+            let range = Range(uncheckedBounds: (5, data!.count))
+            let newData = data?.subdata(in: range) /* subset response data! */
+            self.convertDataWithCompletionHandler(newData!){(result, error) in
+                if (error != nil){
+                    print("conversion failed")
+                } else {
+                    if let results = result{
+                        print(results)
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+
+    
     func createMapPoints(dictionary: [Student]) -> [MKPointAnnotation]{
         var annotations = [MKPointAnnotation]()
         for dictionary in dictionary {
@@ -87,31 +114,19 @@ class Client: NSObject, MKMapViewDelegate {
             let first = (dictionary.firstName as String!)!
             let last = (dictionary.lastName as String!)!
             print(last)
-            let mediaURL = dictionary.mediaUrl as String!
-            // Here we create the annotation and set its coordiate, title, and subtitle properties
+            let mediaURL = (dictionary.mediaURL as String!)!
+            
+            //create annotation and attach data
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = "\(first) \(last)"
             annotation.subtitle = mediaURL
             
-            // Finally we place the annotation in an array of annotations.
+            //place the annotation in an array of annotations.
             annotations.append(annotation)
         }
         return annotations
     }
-    
-    /*func createStudentList(dictionary: [Student]) {
-        for dictionary in dictionary {
-            let lat = CLLocationDegrees(dictionary.latitude as Float!)
-            let long = CLLocationDegrees(dictionary.longitude as Float!)
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            let first = (dictionary.firstName as String!)!
-            let last = (dictionary.lastName as String!)!
-            print(last)
-            let mediaURL = dictionary.mediaUrl as String!
-            
-        }
-    }*/
 
     class func sharedInstance() -> Client {
         struct Singleton {
