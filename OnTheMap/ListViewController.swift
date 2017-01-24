@@ -30,6 +30,18 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print(client.Students[(indexPath).row])
+        //print(client.Students[(indexPath).row])
+        let app = UIApplication.shared
+        print(indexPath)
+        let student = client.Students[(indexPath).row]
+        if let url = NSURL(string: student.mediaURL!) {
+            if (app.canOpenURL(url as URL)){
+            let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+            controller.webUrl = url as NSURL?
+            present(controller, animated: true, completion: nil)
+            }
+        } else {
+            print("cannot open URL")
+        }
     }
 }

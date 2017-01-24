@@ -11,6 +11,8 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
+    let client = Client.sharedInstance()
+    
     @IBOutlet weak var MapView: MKMapView!
     
     
@@ -18,25 +20,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        let client = Client.sharedInstance()
-        var annotations = [MKPointAnnotation]()
+        
         //get data and insert to map
-        client.getDataFromParse{(response, error) in
-            if (error == nil){
-                annotations = client.createMapPoints(dictionary: response)
+        client.getAnnotations{(annotations) -> Void in
+            let mainQ = DispatchQueue.main
+            mainQ.async { () -> Void in
                 self.MapView.addAnnotations(annotations)
-            } else {
-                print(error)
             }
         }
-        client.getPublicData()
     }
     
     // MARK: - MKMapViewDelegate
     
-    // Here we create a view with a "right callout accessory view". You might choose to look into other
-    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
-    // method in TableViewDataSource.
+    //make pins for mapview
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
@@ -57,21 +53,25 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     
-    // This delegate method is implemented to respond to taps. It opens the system browser
-    // to the URL specified in the annotationViews subtitle property.
+    //respond to tap to launch url
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
                 let url = URL(string: toOpen)!
-                if (app.canOpenURL(url)){
-                    print(url)
-                     app.open(url)
-                } else {
+                //print(url)
+                if (app.canOpenURL(url as URL)){
+                        let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+                        controller.webUrl = url as NSURL?
+                        present(controller, animated: true, completion: nil)
+                }else {
                     print("cannot open url")
                 }
             }
         }
+    }
+    @IBAction func addPin(_ sender: AnyObject) {
+        client.getPublicData()
     }
     
 }

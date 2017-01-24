@@ -55,6 +55,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             let parsedResult: AnyObject
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: newData!, options: .allowFragments) as AnyObject
+                //print(parsedResult)
             } catch {
                 let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
                 print(userInfo)
@@ -71,6 +72,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             
             if ((parsedResult["registered"]) != nil){
+                print("Logged In")
                 let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
                 self.present(controller, animated: true, completion: nil)
             }

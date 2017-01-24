@@ -35,9 +35,16 @@ struct Student {
     
     static func studentsFromResults(_ results: [[String: Any]]) -> [Student]{
         var students = [Student]()
+        var studentSet = Set<String>()
         for result in results {
             let student = self.init(dictionary: result as [String : AnyObject])
-            students.append(student)
+            print(student.lastName!)
+            if (studentSet.contains(student.lastName!)){
+                print("contains")
+            } else {
+                studentSet.insert(student.lastName!)
+                students.append(student)
+            }
         }
         return students
     }

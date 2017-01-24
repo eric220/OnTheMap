@@ -22,7 +22,7 @@
 		FAE9B11F1E04469200E1847E /* Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B11E1E04469200E1847E /* Convenience.swift */; };
 		FAE9B1211E0446D500E1847E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B1201E0446D500E1847E /* Constants.swift */; };
 		FAE9B1231E04474300E1847E /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B1221E04474300E1847E /* Client.swift */; };
-		FAE9B1251E044B0300E1847E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B1241E044B0300E1847E /* SignUpViewController.swift */; };
+		FAE9B1251E044B0300E1847E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B1241E044B0300E1847E /* WebViewController.swift */; };
 		FAE9B1271E04844E00E1847E /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B1261E04844E00E1847E /* GCDBlackBox.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +65,7 @@
 		FAE9B11E1E04469200E1847E /* Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convenience.swift; sourceTree = "<group>"; };
 		FAE9B1201E0446D500E1847E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FAE9B1221E04474300E1847E /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		FAE9B1241E044B0300E1847E /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		FAE9B1241E044B0300E1847E /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		FAE9B1261E04844E00E1847E /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,7 +180,7 @@
 				FAE9B11C1E04466700E1847E /* AuthorizationViewController.swift */,
 				FAE9B11E1E04469200E1847E /* Convenience.swift */,
 				FAE9B1201E0446D500E1847E /* Constants.swift */,
-				FAE9B1241E044B0300E1847E /* SignUpViewController.swift */,
+				FAE9B1241E044B0300E1847E /* WebViewController.swift */,
 				FAE9B1221E04474300E1847E /* Client.swift */,
 				FA720B491E25C77800675A1F /* Student.swift */,
 			);
@@ -323,7 +323,7 @@
 			files = (
 				FAE9B11D1E04466700E1847E /* AuthorizationViewController.swift in Sources */,
 				FAE9B1231E04474300E1847E /* Client.swift in Sources */,
-				FAE9B1251E044B0300E1847E /* SignUpViewController.swift in Sources */,
+				FAE9B1251E044B0300E1847E /* WebViewController.swift in Sources */,
 				FA1568381E097F740053D821 /* MapViewController.swift in Sources */,
 				FAE9B11F1E04469200E1847E /* Convenience.swift in Sources */,
 				FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */,
