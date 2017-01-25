@@ -14,10 +14,10 @@ class ListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(client.Students.count)
         return client.Students.count
     }
     
@@ -29,8 +29,7 @@ class ListViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        //print(client.Students[(indexPath).row])
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { 
         let app = UIApplication.shared
         print(indexPath)
         let student = client.Students[(indexPath).row]

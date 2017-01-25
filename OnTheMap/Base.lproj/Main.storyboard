@@ -221,7 +221,7 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="tFX-sX-fCg" id="VCw-hv-Qgo"/>
+                            <outlet property="dataSource" destination="tFX-sX-fCg" id="f25-15-2YL"/>
                             <outlet property="delegate" destination="tFX-sX-fCg" id="ZkK-zo-uvd"/>
                         </connections>
                     </tableView>
