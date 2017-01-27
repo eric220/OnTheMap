@@ -43,6 +43,7 @@ class Client: NSObject, MKMapViewDelegate {
         var parsedResult: AnyObject! = nil
         do {
             parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+            print(parsedResult)
         } catch {
             let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
             completionHandlerForConvertData(nil, NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
@@ -67,6 +68,7 @@ class Client: NSObject, MKMapViewDelegate {
                 self.convertDataWithCompletionHandler(data!){(result, error) in
                     if (error != nil){
                         print("conversion failed")
+                        print(error)
                     } else {
                         if let results = result?["results"] as? [[String:AnyObject]] {
                             let student = Student.studentsFromResults(results)

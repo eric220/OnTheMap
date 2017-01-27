@@ -38,15 +38,26 @@ struct Student {
         var studentSet = Set<String>()
         for result in results {
             let student = self.init(dictionary: result as [String : AnyObject])
-            print(student.lastName!)
-            if (studentSet.contains(student.lastName!)){
-                print("contains")
-            } else {
-                studentSet.insert(student.lastName!)
-                students.append(student)
+            print(student)
+            if (doesContainStudent(name: student.lastName!, set: studentSet)){//student.lastName != nil){
+                if (studentSet.contains(student.lastName!)){
+                    print("contains")
+                //may search for most recent post
+                } else {
+                    studentSet.insert(student.lastName!)
+                    students.append(student)
+                }
             }
         }
         return students
+    }
+    
+    static func doesContainStudent(name: String, set: Set<String>) -> Bool{
+        if (set.contains(name)){
+            return false
+        } else {
+        return true
+        }
     }
 }
 

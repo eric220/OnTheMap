@@ -36,9 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
-        
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
-        
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
@@ -48,7 +46,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         else {
             pinView!.annotation = annotation
         }
-        
         return pinView
     }
     
@@ -71,11 +68,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     @IBAction func addPin(_ sender: AnyObject) {
-        client.getPublicData()
+        //client.getPublicData()
+        
+        let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
+            self.addPinPage()
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
+    func addPinPage() -> Void{
+        print("add pin")
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
+        present(controller, animated: true, completion: nil)
+    }
 }
-    
-    
-    
+
+
+
 

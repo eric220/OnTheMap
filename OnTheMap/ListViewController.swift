@@ -17,7 +17,6 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(client.Students.count)
         return client.Students.count
     }
     
@@ -31,7 +30,6 @@ class ListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { 
         let app = UIApplication.shared
-        print(indexPath)
         let student = client.Students[(indexPath).row]
         if let url = NSURL(string: student.mediaURL!) {
             if (app.canOpenURL(url as URL)){
@@ -42,5 +40,9 @@ class ListViewController: UITableViewController {
         } else {
             print("cannot open URL")
         }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 }

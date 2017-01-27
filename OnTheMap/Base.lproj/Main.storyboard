@@ -151,11 +151,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Qn1-3W-FSe"/>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-iK-53c">
-                                <frame key="frameInset" minY="20" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-iK-53c">
                                 <items>
-                                    <navigationItem title="Title" id="egj-ke-u22">
+                                    <navigationItem id="egj-ke-u22">
                                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="REX-HI-TB1">
                                             <connections>
                                                 <action selector="addPin:" destination="fmp-fm-8Jg" id="yvI-kw-qqU"/>
@@ -167,8 +165,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="fk6-iK-53c" firstAttribute="centerX" secondItem="Qn1-3W-FSe" secondAttribute="centerX" id="AdL-TN-xs2"/>
                             <constraint firstItem="Qn1-3W-FSe" firstAttribute="leading" secondItem="d3u-Km-IEf" secondAttribute="leadingMargin" id="H5S-M5-Yfa"/>
+                            <constraint firstItem="fk6-iK-53c" firstAttribute="leading" secondItem="d3u-Km-IEf" secondAttribute="leading" id="YWj-CZ-ffb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Qn1-3W-FSe" secondAttribute="trailing" id="ZA8-ze-Vhg"/>
+                            <constraint firstItem="fk6-iK-53c" firstAttribute="top" secondItem="A25-OW-TRN" secondAttribute="bottom" id="lVb-nf-tRS"/>
                             <constraint firstItem="Qn1-3W-FSe" firstAttribute="top" secondItem="A25-OW-TRN" secondAttribute="bottom" id="qdk-P4-0JQ"/>
                             <constraint firstItem="gNZ-gj-5BS" firstAttribute="top" secondItem="Qn1-3W-FSe" secondAttribute="bottom" id="rVc-bz-wDf"/>
                         </constraints>
@@ -183,6 +184,81 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Tr-GE-DY0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1897" y="143"/>
+        </scene>
+        <!--AddPinViewController-->
+        <scene sceneID="Jdv-UV-daL">
+            <objects>
+                <viewController storyboardIdentifier="AddPinViewController" title="AddPinViewController" id="bl3-NS-7lD" userLabel="AddPinViewController" customClass="AddPinViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ggz-DL-7ET"/>
+                        <viewControllerLayoutGuide type="bottom" id="11K-oV-eA1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KmI-4M-rA5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8op-JP-XOY">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="9rG-wX-WSS"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem id="yxA-vb-Ahl">
+                                        <barButtonItem key="rightBarButtonItem" title="cancel" id="ohg-KF-RZR">
+                                            <connections>
+                                                <action selector="goBack:" destination="bl3-NS-7lD" id="VNu-rz-IX3"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="enD-yY-O3W">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where are you studying today?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jeU-Lm-Bd4">
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Location Here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krg-tH-V9N">
+                                        <color key="backgroundColor" red="0.82926020160000002" green="1" blue="0.96789194339999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6gu-YL-BNj"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qNy-JL-zjH">
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Find On Map"/>
+                                        <connections>
+                                            <action selector="getUserLocation" destination="bl3-NS-7lD" eventType="touchUpInside" id="ZO7-15-xfD"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="jeU-Lm-Bd4" firstAttribute="centerX" secondItem="enD-yY-O3W" secondAttribute="centerX" id="vWd-rN-xwv"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="leadingMargin" secondItem="8op-JP-XOY" secondAttribute="leading" id="7Yw-xk-ebQ"/>
+                            <constraint firstItem="enD-yY-O3W" firstAttribute="top" secondItem="8op-JP-XOY" secondAttribute="bottom" id="R0x-Vy-3t8"/>
+                            <constraint firstItem="enD-yY-O3W" firstAttribute="leading" secondItem="KmI-4M-rA5" secondAttribute="leadingMargin" id="UEm-bw-aoa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8op-JP-XOY" secondAttribute="trailing" id="cMJ-nW-aDE"/>
+                            <constraint firstItem="11K-oV-eA1" firstAttribute="top" secondItem="enD-yY-O3W" secondAttribute="bottom" id="kj9-8u-NIW"/>
+                            <constraint firstItem="8op-JP-XOY" firstAttribute="top" secondItem="ggz-DL-7ET" secondAttribute="bottom" id="lJz-0e-MLJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="enD-yY-O3W" secondAttribute="trailing" id="wMI-bh-8n8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addPin" destination="qNy-JL-zjH" id="2rK-5l-YLr"/>
+                        <outlet property="locationTextField" destination="krg-tH-V9N" id="Rrn-zP-0GC"/>
+                        <outlet property="mapView" destination="6gu-YL-BNj" id="6Vi-xM-3Cd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fVx-it-jNt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2704" y="-13"/>
         </scene>
         <!--TabBarController-->
         <scene sceneID="sva-aJ-WUm">
