@@ -150,6 +150,10 @@ class Client: NSObject, MKMapViewDelegate {
     func addStudentPin(){
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.httpMethod = "POST"
+        if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
+            let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation/\(UserDefaults.standard.object(forKey: "UserObjectID"))")!)
+            request.httpMethod = "PUT"
+        } 
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -164,6 +168,7 @@ class Client: NSObject, MKMapViewDelegate {
                 print("Your request returned a status code other than 2xx!")
                 return
             }
+            UserDefaults.standard.set(true, forKey: "HasUserObjectID")
             print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
         }
         task.resume()

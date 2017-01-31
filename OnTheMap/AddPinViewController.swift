@@ -85,8 +85,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
             self.dismiss(animated: true, completion: nil)}
         ))
-        //push pin to parse
-        UserDefaults.standard.set(true, forKey: "HasUserObjectID")
+        //push pin to parse, if success set flag
         self.present(alert, animated: true, completion: nil)
     }
 }
