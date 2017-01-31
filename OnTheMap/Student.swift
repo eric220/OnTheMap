@@ -38,20 +38,18 @@ struct Student {
         var studentSet = Set<String>()
         for result in results {
             let student = self.init(dictionary: result as [String : AnyObject])
-            print(student)
-            if (doesContainStudent(name: student.lastName!, set: studentSet)){//student.lastName != nil){
-                if (studentSet.contains(student.lastName!)){
-                    print("contains")
-                //may search for most recent post
-                } else {
-                    studentSet.insert(student.lastName!)
-                    students.append(student)
+            
+            //check for valid and unique student
+            if (isValidStudent(student: student)){
+                if (doesContainStudent(name: student.lastName!, set: studentSet)){ //maybe check for last createdAt??
+                        studentSet.insert(student.lastName!)
+                        students.append(student)
                 }
             }
         }
         return students
     }
-    
+    // compare last name to list if on, exclude. Set flag for self included in list
     static func doesContainStudent(name: String, set: Set<String>) -> Bool{
         if (set.contains(name)){
             return false
@@ -59,7 +57,24 @@ struct Student {
         return true
         }
     }
+    
+    static func isValidStudent(student: Student) -> Bool{
+        guard (student.firstName != nil) else{
+            return false
+        }
+        guard (student.lastName != nil) else{
+            return false
+        }
+        guard (student.latitude != nil) else{
+            return false
+        }
+        guard (student.longitude != nil) else{
+            return false
+        }
+       return true
+    }
 }
+
 
 extension Student: Equatable {}
 

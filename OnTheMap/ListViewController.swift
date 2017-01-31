@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 class ListViewController: UITableViewController {
-    let client = Client.sharedInstance()
+    
+    let client = AppDelegate().client
     
     override func viewDidLoad() {
         super.viewDidLoad()

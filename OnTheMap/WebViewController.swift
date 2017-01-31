@@ -23,12 +23,12 @@ class WebViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    func loadWebView(/*url: NSURL? = NSURL(string:"https://auth.udacity.com/sign-up?" )*/){
+    func loadWebView(){
         if let url = webUrl {
             let request = URLRequest(url: url as URL)
             uiWebView.loadRequest(request)
         } else {
-            let url = NSURL(string:"https://auth.udacity.com/sign-up?")
+            let url = NSURL(string:"https://www.udacity.com/account/auth#!/signup")
             let request = URLRequest(url: url as! URL)
             uiWebView.loadRequest(request)
         }

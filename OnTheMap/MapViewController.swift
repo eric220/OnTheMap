@@ -11,7 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-    let client = Client.sharedInstance()
+    let client = AppDelegate().client
     
     @IBOutlet weak var MapView: MKMapView!
     
@@ -20,17 +20,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        
-        //get data and insert to map
-        client.getAnnotations{(annotations) -> Void in
-            let mainQ = DispatchQueue.main
-            mainQ.async { () -> Void in
-                self.MapView.addAnnotations(annotations)
-            }
-        }
+        self.refresh()
     }
     
     // MARK: - MKMapViewDelegate
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.refresh()
+    }
     
     //make pins for mapview
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -68,20 +66,31 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     @IBAction func addPin(_ sender: AnyObject) {
-        //client.getPublicData()
-        
-        let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
-            self.addPinPage()
-        }))
+        // client.getPublicData()
+        if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
+            let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
+                self.addPinPage()
+            }))
         self.present(alert, animated: true, completion: nil)
+        } else {
+            self.addPinPage()
+        }
     }
     
     func addPinPage() -> Void{
-        print("add pin")
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
         present(controller, animated: true, completion: nil)
+    }
+    
+    func refresh(){
+        client.getAnnotations{(annotations) -> Void in
+            let mainQ = DispatchQueue.main
+            mainQ.async { () -> Void in
+                self.MapView.addAnnotations(annotations)
+            }
+        }
     }
 }
 

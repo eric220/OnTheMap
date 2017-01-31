@@ -52,6 +52,13 @@ struct Constants {
     struct User {
         static var sessionID = ""
         static var accountKey = ""
+        static var firstName = "Eric"
+        static let lastName = "Criteser"
+        static let mapString = "Gulf Shores, AL"
+        static let mediaUrl = "https://udacity.com"
+        static let latitude = "30.272469000000001"
+        static let longitude = "-87.687430000000006"
+        static let objectId: String? = nil
     }
     
     struct ParseParameters {

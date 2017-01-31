@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        checkForUserID()
         return true
     }
 
@@ -43,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if error != nil { // Handle error…
                 return
             }
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Your request returned a status code other than 2xx!")
+                return
+            }
             print("Logout Complete")
         }
         task.resume()
@@ -58,9 +63,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        print("terminate")
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    func checkForUserID() {
+        if UserDefaults.standard.bool(forKey: "HasUserObjectID") {
+            print("Pin Has Been Place")
+        } else {
+            print("There is no UserObjectID!")
+            UserDefaults.standard.set(nil, forKey: "UserObjectID")
+            UserDefaults.standard.set(false, forKey: "HasUserObjectID")
+            UserDefaults.standard.synchronize()
+        }
+    }
 }
 

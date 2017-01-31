@@ -10,6 +10,7 @@
 		FA1568381E097F740053D821 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1568371E097F740053D821 /* MapViewController.swift */; };
 		FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1568391E097F8F0053D821 /* ListViewController.swift */; };
 		FA49B30A1E38351300DA4905 /* AddPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA49B3091E38351300DA4905 /* AddPinViewController.swift */; };
+		FA49B30E1E3F951B00DA4905 /* LinkTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA49B30D1E3F951B00DA4905 /* LinkTextFieldDelegate.swift */; };
 		FA720B4A1E25C77800675A1F /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA720B491E25C77800675A1F /* Student.swift */; };
 		FAE9B0E91E0387ED00E1847E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */; };
 		FAE9B0EB1E0387ED00E1847E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B0EA1E0387ED00E1847E /* LoginViewController.swift */; };
@@ -47,6 +48,7 @@
 		FA1568371E097F740053D821 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FA1568391E097F8F0053D821 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		FA49B3091E38351300DA4905 /* AddPinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPinViewController.swift; sourceTree = "<group>"; };
+		FA49B30D1E3F951B00DA4905 /* LinkTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkTextFieldDelegate.swift; sourceTree = "<group>"; };
 		FA720B491E25C77800675A1F /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		FAE9B0E51E0387ED00E1847E /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */,
 				FAE9B1191E04365F00E1847E /* PasswordTextfieldDelegate.swift */,
+				FA49B30D1E3F951B00DA4905 /* LinkTextFieldDelegate.swift */,
 				FAE9B1261E04844E00E1847E /* GCDBlackBox.swift */,
 				FAE9B0EC1E0387ED00E1847E /* Main.storyboard */,
 				FAE9B1181E0389DB00E1847E /* Models */,
@@ -321,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA49B30E1E3F951B00DA4905 /* LinkTextFieldDelegate.swift in Sources */,
 				FAE9B1231E04474300E1847E /* Client.swift in Sources */,
 				FAE9B1251E044B0300E1847E /* WebViewController.swift in Sources */,
 				FA1568381E097F740053D821 /* MapViewController.swift in Sources */,

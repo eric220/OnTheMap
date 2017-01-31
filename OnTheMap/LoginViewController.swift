@@ -16,14 +16,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var facebookLogin: UIButton!
     
     let textFieldDelegatePassword = PasswordTextfieldDelegate()
-    let client = Client.sharedInstance()
+    let client = AppDelegate().client
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.orange
         self.passwordTextField.delegate = textFieldDelegatePassword
         self.emailTextField.delegate = self
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -31,7 +30,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    @IBAction func loginButton(_ sender: AnyObject) {
+    @IBAction func loginButton(_ sender: AnyObject) { //refactor to client
         //make flash?? Make a UI control function
         setUIEnable(sender: loginButtonOutlet)
         
@@ -55,7 +54,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             let parsedResult: AnyObject
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: newData!, options: .allowFragments) as AnyObject
-                //print(parsedResult)
+                print("user info")
+                print(parsedResult)
             } catch {
                 let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
                 print(userInfo)

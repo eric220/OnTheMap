@@ -154,7 +154,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-iK-53c">
                                 <items>
                                     <navigationItem id="egj-ke-u22">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="REX-HI-TB1">
+                                        <barButtonItem key="leftBarButtonItem" image="pinImage" id="REX-HI-TB1">
                                             <connections>
                                                 <action selector="addPin:" destination="fmp-fm-8Jg" id="yvI-kw-qqU"/>
                                             </connections>
@@ -174,7 +174,7 @@
                             <constraint firstItem="gNZ-gj-5BS" firstAttribute="top" secondItem="Qn1-3W-FSe" secondAttribute="bottom" id="rVc-bz-wDf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" id="gC8-4S-K2Q"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="mapImage" id="gC8-4S-K2Q"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -211,47 +211,46 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="enD-yY-O3W">
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where are you studying today?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jeU-Lm-Bd4">
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Location Here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krg-tH-V9N">
-                                        <color key="backgroundColor" red="0.82926020160000002" green="1" blue="0.96789194339999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6gu-YL-BNj"/>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qNy-JL-zjH">
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <state key="normal" title="Find On Map"/>
-                                        <connections>
-                                            <action selector="getUserLocation" destination="bl3-NS-7lD" eventType="touchUpInside" id="ZO7-15-xfD"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="jeU-Lm-Bd4" firstAttribute="centerX" secondItem="enD-yY-O3W" secondAttribute="centerX" id="vWd-rN-xwv"/>
-                                </constraints>
-                            </stackView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where Are You Studying Today?" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w4h-Yf-FEP">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="URL"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Location Here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krg-tH-V9N">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6gu-YL-BNj"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qNy-JL-zjH">
+                                <state key="normal" title="Find On Map"/>
+                                <connections>
+                                    <action selector="getUserLocation" destination="bl3-NS-7lD" eventType="touchUpInside" id="ZO7-15-xfD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="leadingMargin" secondItem="8op-JP-XOY" secondAttribute="leading" id="7Yw-xk-ebQ"/>
-                            <constraint firstItem="enD-yY-O3W" firstAttribute="top" secondItem="8op-JP-XOY" secondAttribute="bottom" id="R0x-Vy-3t8"/>
-                            <constraint firstItem="enD-yY-O3W" firstAttribute="leading" secondItem="KmI-4M-rA5" secondAttribute="leadingMargin" id="UEm-bw-aoa"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="8op-JP-XOY" secondAttribute="trailing" id="cMJ-nW-aDE"/>
-                            <constraint firstItem="11K-oV-eA1" firstAttribute="top" secondItem="enD-yY-O3W" secondAttribute="bottom" id="kj9-8u-NIW"/>
-                            <constraint firstItem="8op-JP-XOY" firstAttribute="top" secondItem="ggz-DL-7ET" secondAttribute="bottom" id="lJz-0e-MLJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="enD-yY-O3W" secondAttribute="trailing" id="wMI-bh-8n8"/>
+                            <constraint firstItem="6gu-YL-BNj" firstAttribute="top" secondItem="krg-tH-V9N" secondAttribute="bottom" constant="10" id="6BG-f4-2Bq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="krg-tH-V9N" secondAttribute="trailing" id="83j-ed-zV0"/>
+                            <constraint firstItem="krg-tH-V9N" firstAttribute="top" secondItem="w4h-Yf-FEP" secondAttribute="bottom" constant="10" id="Dnz-lP-g1l"/>
+                            <constraint firstItem="qNy-JL-zjH" firstAttribute="centerX" secondItem="KmI-4M-rA5" secondAttribute="centerX" id="Eos-DW-9I5"/>
+                            <constraint firstItem="8op-JP-XOY" firstAttribute="top" secondItem="ggz-DL-7ET" secondAttribute="bottom" id="EtO-y2-hAF"/>
+                            <constraint firstItem="6gu-YL-BNj" firstAttribute="bottom" secondItem="qNy-JL-zjH" secondAttribute="top" constant="-10" id="JO7-bo-XoN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6gu-YL-BNj" secondAttribute="trailing" id="MZm-h3-YTY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="w4h-Yf-FEP" secondAttribute="trailing" id="ORs-Dz-mOx"/>
+                            <constraint firstItem="w4h-Yf-FEP" firstAttribute="leading" secondItem="KmI-4M-rA5" secondAttribute="leadingMargin" id="QLH-HN-jkk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8op-JP-XOY" secondAttribute="trailing" id="ROT-ev-JIp"/>
+                            <constraint firstItem="11K-oV-eA1" firstAttribute="top" secondItem="qNy-JL-zjH" secondAttribute="bottom" constant="20" id="Xqh-tO-UkV"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="8op-JP-XOY" secondAttribute="leading" id="Z6M-M2-j3K"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="6gu-YL-BNj" secondAttribute="leading" id="amw-mY-diP"/>
+                            <constraint firstItem="krg-tH-V9N" firstAttribute="leading" secondItem="KmI-4M-rA5" secondAttribute="leadingMargin" id="bDM-yN-zZS"/>
+                            <constraint firstItem="w4h-Yf-FEP" firstAttribute="top" secondItem="8op-JP-XOY" secondAttribute="bottom" constant="5" id="o1E-fb-dq3"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addPin" destination="qNy-JL-zjH" id="2rK-5l-YLr"/>
+                        <outlet property="linkTextField" destination="w4h-Yf-FEP" id="ZXB-oj-HOV"/>
                         <outlet property="locationTextField" destination="krg-tH-V9N" id="Rrn-zP-0GC"/>
                         <outlet property="mapView" destination="6gu-YL-BNj" id="6Vi-xM-3Cd"/>
                     </connections>
@@ -301,11 +300,16 @@
                             <outlet property="delegate" destination="tFX-sX-fCg" id="ZkK-zo-uvd"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="List" id="YLV-Tr-rhz"/>
+                    <tabBarItem key="tabBarItem" title="List" image="listImage" id="YLV-Tr-rhz"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1bb-V6-N4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1929" y="887"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="listImage" width="32" height="32"/>
+        <image name="mapImage" width="32" height="32"/>
+        <image name="pinImage" width="32" height="32"/>
+    </resources>
 </document>
