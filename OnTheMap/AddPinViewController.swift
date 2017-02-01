@@ -78,11 +78,12 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     }
     
     @ IBAction func getUserLocation(){
-        print(self.userLocationPoint?.location?.coordinate.latitude)
-        print(self.userLocationPoint?.location?.coordinate.longitude)
+        //print(self.userLocationPoint?.location?.coordinate.latitude)
+        //print(self.userLocationPoint?.location?.coordinate.longitude)
         let alert = UIAlertController(title: "Alert", message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
         alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
+            self.client.addStudentPin()
             self.dismiss(animated: true, completion: nil)}
         ))
         //push pin to parse, if success set flag

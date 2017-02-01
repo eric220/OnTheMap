@@ -58,7 +58,6 @@ struct Constants {
         static let mediaUrl = "https://udacity.com"
         static let latitude = "30.272469000000001"
         static let longitude = "-87.687430000000006"
-        static let objectId: String? = nil
     }
     
     struct ParseParameters {

@@ -132,7 +132,6 @@ class Client: NSObject, MKMapViewDelegate {
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             let first = (dictionary.firstName as String!)!
             let last = (dictionary.lastName as String!)!
-            //print(last)
             let mediaURL = (dictionary.mediaURL as String!)!
             
             //create annotation and attach data
@@ -151,13 +150,14 @@ class Client: NSObject, MKMapViewDelegate {
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.httpMethod = "POST"
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
-            let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation/\(UserDefaults.standard.object(forKey: "UserObjectID"))")!)
+            let userID = UserDefaults.standard.value(forKey: "UserObjectID")
+            let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation/\(userID!)")!)
             request.httpMethod = "PUT"
         } 
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"uniqueKey\": \"\(Constants.User.accountKey)\", \"firstName\": \"Eric\", \"lastName\": \"Criteser\",\"mapString\": \"Gulf Shores, AL\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 30.272469000000001, \"longitude\": -87.687430000000006}".data(using: String.Encoding.utf8)
+        request.httpBody = "{\"uniqueKey\": \"\(Constants.User.accountKey)\", \"firstName\": \"Eric, A\", \"lastName\": \"Criteser\",\"mapString\": \"Gulf Shores, AL\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 30.272469000000001, \"longitude\": -87.687430000000006}".data(using: String.Encoding.utf8)
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error…
@@ -168,8 +168,17 @@ class Client: NSObject, MKMapViewDelegate {
                 print("Your request returned a status code other than 2xx!")
                 return
             }
+            self.convertDataWithCompletionHandler(data!){(result, error) in
+                if (error != nil){
+                    print(error)
+                } else {
+                    if let result = result?[Constants.ResponseKeys.objectId]! {
+                        UserDefaults.standard.set(result, forKey: "UserObjectID")
+                    }
+                }
+            }
             UserDefaults.standard.set(true, forKey: "HasUserObjectID")
-            print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
+            //print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!)
         }
         task.resume()
     }
