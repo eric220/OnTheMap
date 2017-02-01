@@ -54,8 +54,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             let parsedResult: AnyObject
             do {
                 parsedResult = try JSONSerialization.jsonObject(with: newData!, options: .allowFragments) as AnyObject
-                print("user info")
-                print(parsedResult)
+                //print("user info")
+                //print(parsedResult)
             } catch {
                 let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
                 print(userInfo)

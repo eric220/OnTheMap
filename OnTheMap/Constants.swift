@@ -54,10 +54,10 @@ struct Constants {
         static var accountKey = ""
         static var firstName = "Eric"
         static let lastName = "Criteser"
-        static let mapString = "Gulf Shores, AL"
-        static let mediaUrl = "https://udacity.com"
-        static let latitude = "30.272469000000001"
-        static let longitude = "-87.687430000000006"
+        static var mapString = "Gulf Shores, AL"
+        static var mediaUrl = "https://udacity.com"
+        static var latitude: Double = 30.272469000000001
+        static var longitude: Double = -87.687430000000006
     }
     
     struct ParseParameters {
