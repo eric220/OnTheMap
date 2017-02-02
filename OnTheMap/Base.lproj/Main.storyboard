@@ -293,6 +293,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="WDv-dj-LfY" id="Iz5-Jp-vKc"/>
+                                    <outlet property="delegate" destination="WDv-dj-LfY" id="zyJ-lL-Xux"/>
                                 </connections>
                             </tableView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hIs-Wc-hJo">
@@ -335,7 +336,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="fmp-fm-8Jg" kind="relationship" relationship="viewControllers" id="tY6-rQ-lzZ"/>
-                        <segue destination="tFX-sX-fCg" kind="relationship" relationship="viewControllers" id="6ws-I6-buJ"/>
+                        <segue destination="WDv-dj-LfY" kind="relationship" relationship="viewControllers" id="SFo-Lr-s7n"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q7t-Ao-xF4" userLabel="First Responder" sceneMemberID="firstResponder"/>

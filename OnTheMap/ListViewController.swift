@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ListViewController: UITableViewController {
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let client = AppDelegate().client
     
@@ -17,11 +17,11 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return client.Students.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //get and populate cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         let student = client.Students[(indexPath as NSIndexPath).row]
@@ -29,7 +29,7 @@ class ListViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { 
         let app = UIApplication.shared
         let student = client.Students[(indexPath).row]
         if let url = NSURL(string: student.mediaURL!) {
