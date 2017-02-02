@@ -28,7 +28,18 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         linkTextField.isEnabled = false
         linkTextField.delegate = linkTextfieldDelegate
         locationTextField.delegate = self
-        locationTextField.becomeFirstResponder()
+    }
+    
+    //TextField functions
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //textFieldDidReturn(locationTextField)
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.addPin.setTitle("Find On Map", for: .normal)
+        locationTextField.text = ""
     }
     
     //button actions
@@ -36,26 +47,26 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         dismiss(animated: true, completion: nil)
     }
     
-    //TextField functions
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textFieldDidReturn(locationTextField)
-        return true
-    }
-    
-    func textFieldDidReturn(_ textField: UITextField) {
-        mapView.removeAnnotations(mapView.annotations)
-        self.createPin(location: locationTextField.text!)
-        self.addPin.setTitle("Submit?", for: .normal)
-        if (linkTextField.text == ""){
-            self.linkTextField.placeholder = "Enter Link Info"
+    @ IBAction func getUserLocation(){
+        if (addPin.titleLabel?.text == "Find On Map"){
+            findOnMap()
+        } else if (addPin.titleLabel?.text == "Submit?"){
+            if let lat = self.userLocationPoint?.location?.coordinate.latitude {
+                Constants.User.latitude = Double(lat)
+            }
+            if let long = self.userLocationPoint?.location?.coordinate.longitude {
+            Constants.User.longitude = Double(long)
+            }
+            //Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
+            let alert = UIAlertController(title: "Alert", message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
+                self.client.addStudentPin()
+                self.dismiss(animated: true, completion: nil)}
+            ))
+            //push pin to parse, if success set flag
+            self.present(alert, animated: true, completion: nil)
         }
-        self.linkTextField.isEnabled = true
-        textField.resignFirstResponder()
-        self.linkTextField.becomeFirstResponder()
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        locationTextField.text = ""
     }
     
     //center map on location
@@ -65,6 +76,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         mapView.isZoomEnabled = true
     }
     
+    //place pin and center map
     func createPin(location: String) {
         userLocationString = location
         let geocoder = CLGeocoder()
@@ -77,21 +89,14 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         })
     }
     
-    @ IBAction func getUserLocation(){
-        if let lat = self.userLocationPoint?.location?.coordinate.latitude {
-            Constants.User.latitude = Double(lat)
+    //add pin
+    func findOnMap(){
+        mapView.removeAnnotations(mapView.annotations)
+        self.createPin(location: locationTextField.text!)
+        self.addPin.setTitle("Submit?", for: .normal)
+        if (linkTextField.text == ""){
+            self.linkTextField.placeholder = "Enter Link Info"
         }
-        if let long = self.userLocationPoint?.location?.coordinate.longitude {
-            Constants.User.longitude = Double(long)
-        }
-        //Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
-        let alert = UIAlertController(title: "Alert", message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
-            self.client.addStudentPin()
-            self.dismiss(animated: true, completion: nil)}
-        ))
-        //push pin to parse, if success set flag
-        self.present(alert, animated: true, completion: nil)
+        self.linkTextField.isEnabled = true
     }
 }

@@ -31,9 +31,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func loginButton(_ sender: AnyObject) { //refactor to client
+        //taskForPost
         //make flash?? Make a UI control function
         setUIEnable(sender: loginButtonOutlet)
-        
+        //let email = emailTextField.text 
+        //let password = passwordTextField.text //need non-redacted value
         let parameters = [String: AnyObject]()
         let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
         let request = NSMutableURLRequest(url: urlRequest)

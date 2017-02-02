@@ -17,6 +17,10 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return client.Students.count
     }
@@ -42,8 +46,35 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             print("cannot open URL")
         }
     }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
+    @IBAction func refreshButton(_ sender: AnyObject) {
+        print("refresh")
+        client.getAnnotations{(annotations) -> Void in
+            let mainQ = DispatchQueue.main
+            mainQ.async { () -> Void in
+                
+            }
+        }
     }
+    
+    @IBAction func addPinButton(_ sender: AnyObject) {
+        print("addPin")
+        client.getPublicData()
+        if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
+            let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
+                self.addPinPage()
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.addPinPage()
+        }
+    }
+    
+    func addPinPage() -> Void{
+        let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
+        present(controller, animated: true, completion: nil)
+    }
+
+    
 }

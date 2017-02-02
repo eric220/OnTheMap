@@ -27,7 +27,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-       // self.refresh()
     }
     
     //make pins for mapview

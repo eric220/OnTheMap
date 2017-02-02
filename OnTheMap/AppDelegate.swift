@@ -29,7 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        let request = NSMutableURLRequest(url: URL(string: "https://www.udacity.com/api/session")!)
+        let parameters = [String: AnyObject]()
+        let urlRequest = Client.sharedInstance().OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
+        let request = NSMutableURLRequest(url: urlRequest)
         request.httpMethod = "DELETE"
         var xsrfCookie: HTTPCookie? = nil
         let sharedCookieStorage = HTTPCookieStorage.shared
@@ -39,19 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let xsrfCookie = xsrfCookie {
             request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
         }
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                return
-            }
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Your request returned a status code other than 2xx!")
-                return
-            }
-            print("Logout Complete")
+        client.taskManager(request: request){(data, response, error) in
+            print("session deleted")
         }
-        task.resume()
-
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -69,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func checkForUserID() {
         if UserDefaults.standard.bool(forKey: "HasUserObjectID") {
-            print("Pin Has Been Place")
+            print("Pin Has Been Placed")
         } else {
             print("There is no UserObjectID!")
             UserDefaults.standard.set(nil, forKey: "UserObjectID")

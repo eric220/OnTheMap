@@ -220,14 +220,12 @@
                                 </items>
                             </navigationBar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where Are You Studying Today?" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w4h-Yf-FEP">
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="bRl-va-KY4"/>
+                                </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="URL"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Location Here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krg-tH-V9N">
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
                             </textField>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6gu-YL-BNj"/>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qNy-JL-zjH">
@@ -236,6 +234,11 @@
                                     <action selector="getUserLocation" destination="bl3-NS-7lD" eventType="touchUpInside" id="ZO7-15-xfD"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Location Here" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krg-tH-V9N">
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -270,7 +273,7 @@
         <!--ListViewController-->
         <scene sceneID="tq3-kv-Mh9">
             <objects>
-                <viewController storyboardIdentifier="ListViewController1" id="WDv-dj-LfY" userLabel="ListViewController" customClass="ListViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ListViewController" id="WDv-dj-LfY" userLabel="ListViewController" customClass="ListViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d1I-hZ-9bE"/>
                         <viewControllerLayoutGuide type="bottom" id="J9f-nL-4ej"/>
@@ -296,14 +299,20 @@
                                     <outlet property="delegate" destination="WDv-dj-LfY" id="zyJ-lL-Xux"/>
                                 </connections>
                             </tableView>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hIs-Wc-hJo">
-                                <frame key="frameInset" minY="-10" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIs-Wc-hJo">
                                 <items>
-                                    <navigationItem title="Title" id="jjG-XW-PVE">
+                                    <navigationItem id="jjG-XW-PVE">
                                         <rightBarButtonItems>
-                                            <barButtonItem systemItem="refresh" id="PUv-yy-pew"/>
-                                            <barButtonItem image="pinImage" id="Dyq-LG-Rdg"/>
+                                            <barButtonItem systemItem="refresh" id="PUv-yy-pew">
+                                                <connections>
+                                                    <action selector="refreshButton:" destination="WDv-dj-LfY" id="E6J-73-dwX"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem image="pinImage" id="Dyq-LG-Rdg" userLabel="AddPin">
+                                                <connections>
+                                                    <action selector="addPinButton:" destination="WDv-dj-LfY" id="9v7-vl-tZd"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
@@ -311,10 +320,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="hIs-Wc-hJo" firstAttribute="centerX" secondItem="Ysm-mr-Slh" secondAttribute="centerX" id="0NT-hR-FOT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ysm-mr-Slh" secondAttribute="trailing" id="PjI-a1-qgA"/>
-                            <constraint firstItem="Ysm-mr-Slh" firstAttribute="top" secondItem="d1I-hZ-9bE" secondAttribute="bottom" constant="29" id="XHc-64-Svq"/>
                             <constraint firstItem="J9f-nL-4ej" firstAttribute="top" secondItem="Ysm-mr-Slh" secondAttribute="bottom" id="YaO-25-TqP"/>
                             <constraint firstItem="Ysm-mr-Slh" firstAttribute="leading" secondItem="42D-QW-gTE" secondAttribute="leadingMargin" id="fGq-Yi-Dga"/>
+                            <constraint firstItem="hIs-Wc-hJo" firstAttribute="top" secondItem="42D-QW-gTE" secondAttribute="topMargin" constant="5" id="hGG-Wc-kmF"/>
+                            <constraint firstItem="Ysm-mr-Slh" firstAttribute="top" secondItem="hIs-Wc-hJo" secondAttribute="bottom" id="qbf-nU-f3d"/>
+                            <constraint firstItem="hIs-Wc-hJo" firstAttribute="leading" secondItem="42D-QW-gTE" secondAttribute="leading" id="zmK-Qe-Msx"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="List" image="listImage" id="YEU-cO-HJk"/>
@@ -323,7 +335,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vM-4Q-2Fc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2758" y="668"/>
+            <point key="canvasLocation" x="1897" y="831"/>
         </scene>
         <!--TabBarController-->
         <scene sceneID="sva-aJ-WUm">
@@ -342,35 +354,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q7t-Ao-xF4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1062" y="480"/>
-        </scene>
-        <!--ListViewController-->
-        <scene sceneID="ZcA-mg-i3X">
-            <objects>
-                <tableViewController storyboardIdentifier="ListViewController" title="ListViewController" id="tFX-sX-fCg" customClass="ListViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="NIf-F0-fx3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="EcW-Dp-VPg">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EcW-Dp-VPg" id="MZQ-Vm-cZh">
-                                    <frame key="frameInset" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="tFX-sX-fCg" id="f25-15-2YL"/>
-                            <outlet property="delegate" destination="tFX-sX-fCg" id="ZkK-zo-uvd"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="List" image="listImage" id="YLV-Tr-rhz"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1bb-V6-N4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1841" y="1018"/>
         </scene>
     </scenes>
     <resources>

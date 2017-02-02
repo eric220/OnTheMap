@@ -32,7 +32,7 @@ class Client: NSObject, MKMapViewDelegate {
         return components.url!
     }
     
-    //return json data
+    //serialize json data
     func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         var parsedResult: AnyObject! = nil
@@ -51,12 +51,27 @@ class Client: NSObject, MKMapViewDelegate {
         let q = DispatchQueue.global(qos: .userInteractive)
         q.async { () -> Void in
             let parameters = ["limit": 100 as AnyObject]
-            //let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation?limit=100")!)
             let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
             let request = NSMutableURLRequest(url: urlRequest)
             request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
             request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-            let session = URLSession.shared
+            self.taskManager(request: request){(data, response, error) in
+                self.convertDataWithCompletionHandler(data as! Data){(result, error) in
+                    if (error != nil){
+                        print("conversion failed")
+                        print(error)
+                    } else {
+                        if let results = result?["results"] as? [[String:AnyObject]] {
+                            let student = Student.studentsFromResults(results)
+                            self.Students = student
+                            var annotations = [MKPointAnnotation]()
+                            annotations  = self.createMapPoints(dictionary: student)
+                            handler(annotations)
+                        }
+                    }
+                }
+            }//THIS WORKS, CAN BE DELETED
+            /*let session = URLSession.shared
             let task = session.dataTask(with: request as URLRequest) { data, response, error in
                 if (error != nil){
                     print(error)
@@ -94,13 +109,25 @@ class Client: NSObject, MKMapViewDelegate {
                     }
                 }
             }
-            task.resume()
+            task.resume()*/
         }
     }
     func getPublicData() {
+        //taskForGet
         let parameters = [String: AnyObject]()
         let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/users/\(Constants.User.accountKey)", withHost: Constants.URL.APIHostUdacity)
         let request = NSMutableURLRequest(url: urlRequest)
+        /*taskManager(request: request){data, response, error in
+            let range = Range(uncheckedBounds: (5, data!.count))
+            let newData = data?.subdata(in: range) /* subset response data! */
+            self.convertDataWithCompletionHandler(newData!){(result, error) in
+                if (error != nil){
+                    print("conversion failed")
+                } else {
+                    print("result")
+                }
+            }
+        }*/
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error...
@@ -144,13 +171,16 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     func addStudentPin(){
+        //send to taskForPost
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.httpMethod = "POST"
         
-        //check for pin placed
+        //check for pin placed and leave PUT here
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
             let userID = UserDefaults.standard.value(forKey: "UserObjectID")
-            let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation/\(userID!)")!)
+            let parameters = [String:AnyObject]()
+            let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes/StudentLocation/\(userID!)", withHost: Constants.URL.APIHostParseNoWWW)
+            let request = NSMutableURLRequest(url: urlRequest)
             request.httpMethod = "PUT"
         } 
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
@@ -180,7 +210,34 @@ class Client: NSObject, MKMapViewDelegate {
         }
         task.resume()
     }
+    
+    func taskManager(request: NSMutableURLRequest, handler:@escaping (_ data: AnyObject?, _ response: HTTPURLResponse, _ error: NSError?) -> Void) {
+        let session = URLSession.shared
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
+            func printError(err: String){
+                print(err)
+                handler(nil, response as! HTTPURLResponse, error as NSError?)
+            }
+            
+            if error != nil { // Handle error…
+                printError(err: "returned an error")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                printError(err: "Your request returned a status code other than 2xx!")
+                return
+            }
+            
+            if let data = data {
+                handler(data as AnyObject?, response as! HTTPURLResponse, nil)
+                return
+            }
+        }
+        task.resume()
 
+    
+    }
 
     class func sharedInstance() -> Client {
         struct Singleton {
