@@ -78,9 +78,13 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     }
     
     @ IBAction func getUserLocation(){
-        Constants.User.latitude = Double((self.userLocationPoint?.location?.coordinate.latitude)!)
-        Constants.User.longitude = Double((self.userLocationPoint?.location?.coordinate.longitude)!)
-        Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
+        if let lat = self.userLocationPoint?.location?.coordinate.latitude {
+            Constants.User.latitude = Double(lat)
+        }
+        if let long = self.userLocationPoint?.location?.coordinate.longitude {
+            Constants.User.longitude = Double(long)
+        }
+        //Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
         let alert = UIAlertController(title: "Alert", message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
         alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in

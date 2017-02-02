@@ -27,7 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.refresh()
+       // self.refresh()
     }
     
     //make pins for mapview
@@ -66,7 +66,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     @IBAction func addPin(_ sender: AnyObject) {
-        // client.getPublicData()
+        client.getPublicData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
             let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
@@ -91,6 +91,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.MapView.addAnnotations(annotations)
             }
         }
+    }
+    @IBAction func refreshView(_ sender: AnyObject) {
+        refresh()
     }
 }
 

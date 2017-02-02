@@ -35,7 +35,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         setUIEnable(sender: loginButtonOutlet)
         
         let parameters = [String: AnyObject]()
-        let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: "Udacity")
+        let urlRequest = client.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
         let request = NSMutableURLRequest(url: urlRequest)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -49,32 +49,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 return
             }
             let range = Range(uncheckedBounds: (5, data!.count))
-            let newData = data?.subdata(in: range) /* subset response data! */
-           // self.client.convertDataWithCompletionHandler(<#T##data: Data##Data#>, completionHandlerForConvertData: <#T##(AnyObject?, NSError?) -> Void#>)
-            let parsedResult: AnyObject
-            do {
-                parsedResult = try JSONSerialization.jsonObject(with: newData!, options: .allowFragments) as AnyObject
-                //print("user info")
-                //print(parsedResult)
-            } catch {
-                let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
-                print(userInfo)
-                return
-            }
-            
-            if let keyResult = parsedResult[Constants.ResponseKeys.account] as? [String: AnyObject] {
-                let accountKey = keyResult[Constants.ResponseKeys.key] as! String
-                Constants.User.accountKey = accountKey
-            }
-            if let sessionResult = parsedResult[Constants.ResponseKeys.session] as? [String: AnyObject] {
-                let sessionID = sessionResult[Constants.ResponseKeys.id] as! String
-                Constants.User.sessionID = sessionID
-            }
-            
-            if ((parsedResult["registered"]) != nil){
-                print("Logged In")
-                let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-                self.present(controller, animated: true, completion: nil)
+            let newData = data?.subdata(in: range) // subset response data! 
+            self.client.convertDataWithCompletionHandler(newData!){(result,error) in
+                if error != nil{
+                    print(error)
+                } else {
+                    if let keyResult = result?[Constants.ResponseKeys.account] as? [String: AnyObject] {
+                        let accountKey = keyResult[Constants.ResponseKeys.key] as! String
+                        Constants.User.accountKey = accountKey
+                    }
+                    if let sessionResult = result?[Constants.ResponseKeys.session] as? [String: AnyObject] {
+                        let sessionID = sessionResult[Constants.ResponseKeys.id] as! String
+                        Constants.User.sessionID = sessionID
+                    }
+                    
+                    if ((result?["registered"]) != nil){
+                        print("Logged In")
+                        let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+                        self.present(controller, animated: true, completion: nil)
+                    }
+                }
             }
 
         }

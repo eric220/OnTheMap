@@ -24,9 +24,11 @@ struct Constants {
         static let APIScheme = "https"
         static let APIHostUdacity = "www.udacity.com"
         static let APIHostParse = "www.parse.udacity.com"
+        static let APIHostParseNoWWW = "parse.udacity.com"
         static let APIPath = "api/"
         static let APISession = "session"
         static let APIUser = "user"
+        static let url = "https://parse.udacity.com/parse/classes/StudentLocation"
     }
     
     struct ResponseKeys {
@@ -57,7 +59,7 @@ struct Constants {
         static var mapString = "Gulf Shores, AL"
         static var mediaUrl = "https://udacity.com"
         static var latitude: Double = 30.272469000000001
-        static var longitude: Double = -87.687430000000006
+        static var longitude: Double = -80.194702000000007
     }
     
     struct ParseParameters {
