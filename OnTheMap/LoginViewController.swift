@@ -30,8 +30,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    @IBAction func loginButton(_ sender: AnyObject) { //refactor to client
-        //taskForPost
+    @IBAction func loginButton(_ sender: AnyObject) {
         //make flash?? Make a UI control function
         setUIEnable(sender: loginButtonOutlet)
         //let email = emailTextField.text 
@@ -43,38 +42,26 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"udacity\": {\"username\": \"\(Constants.ParameterKeys.userName)\", \"password\": \"\(Constants.ParameterKeys.password)\"}}".data(using: String.Encoding.utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            if error != nil { // Handle error…
-                self.loginButtonOutlet.setTitle("Log In Failed, Try Again", for: UIControlState.normal)
-                print(error)
-                return
-            }
-            let range = Range(uncheckedBounds: (5, data!.count))
-            let newData = data?.subdata(in: range) // subset response data! 
-            self.client.convertDataWithCompletionHandler(newData!){(result,error) in
-                if error != nil{
-                    print(error)
-                } else {
-                    if let keyResult = result?[Constants.ResponseKeys.account] as? [String: AnyObject] {
-                        let accountKey = keyResult[Constants.ResponseKeys.key] as! String
-                        Constants.User.accountKey = accountKey
-                    }
-                    if let sessionResult = result?[Constants.ResponseKeys.session] as? [String: AnyObject] {
-                        let sessionID = sessionResult[Constants.ResponseKeys.id] as! String
-                        Constants.User.sessionID = sessionID
-                    }
-                    
-                    if ((result?["registered"]) != nil){
-                        print("Logged In")
-                        let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-                        self.present(controller, animated: true, completion: nil)
-                    }
+        client.taskManager(request: request){data, response, error in
+            let newData = data as! Data// subset response data!
+            let range = Range(uncheckedBounds: (5, newData.count))
+            let reallyNewData = newData.subdata(in: range)
+            self.client.convertDataWithCompletionHandler(reallyNewData){(result, error) in
+                if let keyResult = result?[Constants.ResponseKeys.account] as? [String: AnyObject] {
+                    let accountKey = keyResult[Constants.ResponseKeys.key] as! String
+                    Constants.User.accountKey = accountKey
+                }
+                if let sessionResult = result?[Constants.ResponseKeys.session] as? [String: AnyObject] {
+                    let sessionID = sessionResult[Constants.ResponseKeys.id] as! String
+                    Constants.User.sessionID = sessionID
+                }
+                if ((result?["registered"]) != nil){
+                    print("Logged In")
+                    let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+                    self.present(controller, animated: true, completion: nil)
                 }
             }
-
         }
-        task.resume()
     }
     @IBAction func signUpButton(_ sender: AnyObject) {
     }

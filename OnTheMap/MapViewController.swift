@@ -67,14 +67,32 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func addPin(_ sender: AnyObject) {
         client.getPublicData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
-            let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+            let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
                 self.addPinPage()
             }))
         self.present(alert, animated: true, completion: nil)
         } else {
             self.addPinPage()
+        }
+    }
+    
+    @IBAction func refreshView(_ sender: AnyObject) {
+        refresh()
+    }
+    
+    @IBAction func logoutButton(_ sender: AnyObject) {
+        client.logout(){(response, error) in
+            var alert: UIAlertController? = nil
+            if (error != nil){
+                alert = self.client.launchAlert(message: "Cannot logout due to error")
+                self.present(alert!, animated: true, completion: nil)
+            } else if (response.statusCode <= 200 && response.statusCode >= 299){
+                alert = self.client.launchAlert(message: "Networking Difficulty, please check network connection")
+                self.present(alert!, animated: true, completion: nil)
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -87,12 +105,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         client.getAnnotations{(annotations) -> Void in
             let mainQ = DispatchQueue.main
             mainQ.async { () -> Void in
+                self.MapView.removeAnnotations(self.MapView.annotations)
                 self.MapView.addAnnotations(annotations)
             }
         }
-    }
-    @IBAction func refreshView(_ sender: AnyObject) {
-        refresh()
     }
 }
 

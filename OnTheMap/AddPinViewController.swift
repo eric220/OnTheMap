@@ -32,7 +32,6 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     
     //TextField functions
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //textFieldDidReturn(locationTextField)
         textField.resignFirstResponder()
         return true
     }
@@ -58,8 +57,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
             Constants.User.longitude = Double(long)
             }
             //Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
-            let alert = UIAlertController(title: "Alert", message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+            let alert = client.launchAlert(message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)")
             alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
                 self.client.addStudentPin()
                 self.dismiss(animated: true, completion: nil)}

@@ -155,8 +155,13 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fk6-iK-53c">
                                 <items>
                                     <navigationItem id="egj-ke-u22">
+                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="Ug3-ot-yf2">
+                                            <connections>
+                                                <action selector="logoutButton:" destination="fmp-fm-8Jg" id="72w-Ly-7Eo"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <rightBarButtonItems>
-                                            <barButtonItem image="pinImage" id="REX-HI-TB1">
+                                            <barButtonItem image="pinImage" id="REX-HI-TB1" userLabel="AddPin">
                                                 <connections>
                                                     <action selector="addPin:" destination="fmp-fm-8Jg" id="yvI-kw-qqU"/>
                                                 </connections>
@@ -302,15 +307,20 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIs-Wc-hJo">
                                 <items>
                                     <navigationItem id="jjG-XW-PVE">
+                                        <barButtonItem key="leftBarButtonItem" title="Logout" id="Ye5-Be-qO6">
+                                            <connections>
+                                                <action selector="logoutButton:" destination="WDv-dj-LfY" id="TzB-ID-hSc"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <rightBarButtonItems>
-                                            <barButtonItem systemItem="refresh" id="PUv-yy-pew">
-                                                <connections>
-                                                    <action selector="refreshButton:" destination="WDv-dj-LfY" id="E6J-73-dwX"/>
-                                                </connections>
-                                            </barButtonItem>
                                             <barButtonItem image="pinImage" id="Dyq-LG-Rdg" userLabel="AddPin">
                                                 <connections>
                                                     <action selector="addPinButton:" destination="WDv-dj-LfY" id="9v7-vl-tZd"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem systemItem="refresh" id="PUv-yy-pew">
+                                                <connections>
+                                                    <action selector="refreshButton:" destination="WDv-dj-LfY" id="E6J-73-dwX"/>
                                                 </connections>
                                             </barButtonItem>
                                         </rightBarButtonItems>

@@ -21,6 +21,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return true
     }
     
+    //tableview functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return client.Students.count
     }
@@ -46,6 +47,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             print("cannot open URL")
         }
     }
+    
+    //buttons
     @IBAction func refreshButton(_ sender: AnyObject) {
         print("refresh")
         client.getAnnotations{(annotations) -> Void in
@@ -60,8 +63,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         print("addPin")
         client.getPublicData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
-            let alert = UIAlertController(title: "Alert", message: "You already have a posted pin. Would you like to overwrite it?", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
+            let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
                 self.addPinPage()
             }))
@@ -71,6 +73,13 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    @IBAction func logoutButton(_ sender: AnyObject) {
+        client.logout(){(response, error) in
+            
+        }
+    }
+    
+    //helpers
     func addPinPage() -> Void{
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
         present(controller, animated: true, completion: nil)

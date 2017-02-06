@@ -60,6 +60,7 @@ struct Constants {
         static var mediaUrl = "https://udacity.com"
         static var latitude: Double = 30.272469000000001
         static var longitude: Double = -80.194702000000007
+        static var hasPin: Bool = false
     }
     
     struct ParseParameters {
