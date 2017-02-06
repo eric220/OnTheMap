@@ -12,7 +12,7 @@ import MapKit
 
 class Client: NSObject, MKMapViewDelegate {
     
-    var Students = [Student]()
+    var Students = [StudentInformation]()
     
     //build url by components
     func OTMUrlParameter(parameters: [String:AnyObject], withPathExtension: String? = nil, withHost: String? = nil) -> URL {
@@ -46,12 +46,18 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     //task manager for tasks
-    func taskManager(request: NSMutableURLRequest, handler:@escaping (_ data: AnyObject?, _ response: HTTPURLResponse, _ error: NSError?) -> Void) {
+    func taskManager(request: NSMutableURLRequest, handler:@escaping (_ data: AnyObject?, _ success: Bool, _ error: NSError?) -> Void) {
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             func printError(err: String){
                 print(err)
-                handler(nil, response as! HTTPURLResponse, error as NSError?)
+                handler(nil, false, error as NSError?)
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                print("Your request returned a status code other than 2xx!")
+                handler(nil, false, nil )
+                return
             }
             
             if error != nil { // Handle error…
@@ -59,49 +65,16 @@ class Client: NSObject, MKMapViewDelegate {
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                printError(err: "Your request returned a status code other than 2xx!")
-                return
-            }
-            
             if let data = data {
-                handler(data as AnyObject?, response as! HTTPURLResponse, nil)
+                handler(data as AnyObject?, true, nil)
                 return
             }
         }
         task.resume()
-    }
-    
-    //get students data
-    func getAnnotations(handler:@escaping (_ annotations: [MKAnnotation]) -> Void){
-        let q = DispatchQueue.global(qos: .userInteractive)
-        q.async { () -> Void in
-            let parameters = ["limit": 10 as AnyObject]
-            let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
-            let request = NSMutableURLRequest(url: urlRequest)
-            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-            self.taskManager(request: request){(data, response, error) in
-                self.convertDataWithCompletionHandler(data as! Data){(result, error) in
-                    if (error != nil){
-                        print("conversion failed")
-                        print(error)
-                    } else {
-                        if let results = result?["results"] as? [[String:AnyObject]] {
-                            let student = Student.studentsFromResults(results)
-                            self.Students = student
-                            var annotations = [MKPointAnnotation]()
-                            annotations  = self.createMapPoints(dictionary: student)
-                            handler(annotations)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
+    } 
+
     //get users data and see if pin posted
-    func getPublicData() {
+    func getUserData() {
         let parameters = [String: AnyObject]()
         let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/users/\(Constants.User.accountKey)", withHost: Constants.URL.APIHostUdacity)
         let request = NSMutableURLRequest(url: urlRequest)
@@ -155,26 +128,8 @@ class Client: NSObject, MKMapViewDelegate {
         }
     }
     
-    func logout(handler:@escaping (_ response: HTTPURLResponse, _ error: NSError?) -> Void) {
-        let parameters = [String: AnyObject]()
-        let urlRequest = Client.sharedInstance().OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
-        let request = NSMutableURLRequest(url: urlRequest)
-        request.httpMethod = "DELETE"
-        var xsrfCookie: HTTPCookie? = nil
-        let sharedCookieStorage = HTTPCookieStorage.shared
-        for cookie in sharedCookieStorage.cookies! {
-            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-        }
-        if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-        }
-        taskManager(request: request){(data, response, error) in
-           handler(response, error)
-        }
-    }
-    
     //create map points from student dictionary
-    func createMapPoints(dictionary: [Student]) -> [MKPointAnnotation]{
+    func createMapPoints(dictionary: [StudentInformation]) -> [MKPointAnnotation]{
         var annotations = [MKPointAnnotation]()
         for dictionary in dictionary {
             let lat = CLLocationDegrees(dictionary.latitude as Float!)
@@ -196,13 +151,33 @@ class Client: NSObject, MKMapViewDelegate {
         return annotations
     }
     
-    func launchAlert(message: String) -> UIAlertController {
-        let alert = UIAlertController(title: "Alert", message: "\(message)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
-        return alert
+    func getAnnotations(handler:@escaping (_ annotations: [MKAnnotation]) -> Void){
+        let q = DispatchQueue.global(qos: .userInteractive)
+        q.async { () -> Void in
+            let parameters = ["limit": 10 as AnyObject]
+            let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
+            let request = NSMutableURLRequest(url: urlRequest)
+            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+            self.taskManager(request: request){(data, response, error) in
+                self.convertDataWithCompletionHandler(data as! Data){(result, error) in
+                    if (error != nil){
+                        print("conversion failed")
+                        print(error)
+                    } else {
+                        if let results = result?["results"] as? [[String:AnyObject]] {
+                            let student = StudentInformation.studentsFromResults(results)
+                            self.Students = student
+                            var annotations = [MKPointAnnotation]()
+                            annotations  = self.createMapPoints(dictionary: student)
+                            handler(annotations)
+                        }
+                    }
+                }
+            }
+        }
     }
-
-
+    
     class func sharedInstance() -> Client {
         struct Singleton {
             static var sharedInstance = Client()

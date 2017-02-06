@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-struct Student {
+struct StudentInformation {
     // MARK: properties
     let objectId: String?
     let uniqueKey: String?
@@ -33,8 +33,8 @@ struct Student {
         longitude = dictionary[Constants.ResponseKeys.longitude] as! Float?
     }
     
-    static func studentsFromResults(_ results: [[String: Any]]) -> [Student]{
-        var students = [Student]()
+    static func studentsFromResults(_ results: [[String: Any]]) -> [StudentInformation]{
+        var students = [StudentInformation]()
         var studentSet = Set<String>()
         for result in results {
             let student = self.init(dictionary: result as [String : AnyObject])
@@ -58,7 +58,7 @@ struct Student {
         }
     }
     
-    static func isValidStudent(student: Student) -> Bool{
+    static func isValidStudent(student: StudentInformation) -> Bool{
         guard (student.firstName != nil) else{
             return false
         }
@@ -76,8 +76,8 @@ struct Student {
 }
 
 
-extension Student: Equatable {}
+extension StudentInformation: Equatable {}
 
-func ==(lhs: Student, rhs: Student) -> Bool {
+func ==(lhs: StudentInformation, rhs: StudentInformation) -> Bool {
     return lhs.lastName == rhs.lastName
 }

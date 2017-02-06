@@ -65,7 +65,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     @IBAction func addPin(_ sender: AnyObject) {
-        client.getPublicData()
+        client.getUserData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
             let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
@@ -85,12 +85,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         client.logout(){(response, error) in
             var alert: UIAlertController? = nil
             if (error != nil){
-                alert = self.client.launchAlert(message: "Cannot logout due to error")
+                alert = self.client.launchAlert(message: "Error Logging Out, Please Try Again")
                 self.present(alert!, animated: true, completion: nil)
-            } else if (response.statusCode <= 200 && response.statusCode >= 299){
-                alert = self.client.launchAlert(message: "Networking Difficulty, please check network connection")
+            } else if (!response){
+                alert = self.client.launchAlert(message: "Network Difficulty, Check Network Connection")
                 self.present(alert!, animated: true, completion: nil)
             } else {
+                print("logout complete")
                 self.dismiss(animated: true, completion: nil)
             }
         }

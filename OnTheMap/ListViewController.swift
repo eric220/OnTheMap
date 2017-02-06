@@ -60,8 +60,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func addPinButton(_ sender: AnyObject) {
-        print("addPin")
-        client.getPublicData()
+        client.getUserData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
             let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
@@ -75,7 +74,17 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBAction func logoutButton(_ sender: AnyObject) {
         client.logout(){(response, error) in
-            
+            var alert: UIAlertController? = nil
+            if (error != nil){
+                alert = self.client.launchAlert(message: "Error Logging Out, Please Try Again")
+                self.present(alert!, animated: true, completion: nil)
+            } else if (!response){
+                alert = self.client.launchAlert(message: "Network Difficulty, Check Network Connection")
+                self.present(alert!, animated: true, completion: nil)
+            } else {
+                print("logout complete")
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     

@@ -244,6 +244,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="X5q-GN-zeb"/>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -257,14 +258,17 @@
                             <constraint firstAttribute="trailingMargin" secondItem="w4h-Yf-FEP" secondAttribute="trailing" id="ORs-Dz-mOx"/>
                             <constraint firstItem="w4h-Yf-FEP" firstAttribute="leading" secondItem="KmI-4M-rA5" secondAttribute="leadingMargin" id="QLH-HN-jkk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8op-JP-XOY" secondAttribute="trailing" id="ROT-ev-JIp"/>
+                            <constraint firstItem="X5q-GN-zeb" firstAttribute="centerY" secondItem="KmI-4M-rA5" secondAttribute="centerY" id="RhW-bK-CPn"/>
                             <constraint firstItem="11K-oV-eA1" firstAttribute="top" secondItem="qNy-JL-zjH" secondAttribute="bottom" constant="20" id="Xqh-tO-UkV"/>
                             <constraint firstAttribute="leadingMargin" secondItem="8op-JP-XOY" secondAttribute="leading" id="Z6M-M2-j3K"/>
                             <constraint firstAttribute="leadingMargin" secondItem="6gu-YL-BNj" secondAttribute="leading" id="amw-mY-diP"/>
                             <constraint firstItem="krg-tH-V9N" firstAttribute="leading" secondItem="KmI-4M-rA5" secondAttribute="leadingMargin" id="bDM-yN-zZS"/>
                             <constraint firstItem="w4h-Yf-FEP" firstAttribute="top" secondItem="8op-JP-XOY" secondAttribute="bottom" constant="5" id="o1E-fb-dq3"/>
+                            <constraint firstItem="X5q-GN-zeb" firstAttribute="centerX" secondItem="KmI-4M-rA5" secondAttribute="centerX" id="tEI-NW-MnN"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="X5q-GN-zeb" id="ies-U1-a7N"/>
                         <outlet property="addPin" destination="qNy-JL-zjH" id="2rK-5l-YLr"/>
                         <outlet property="linkTextField" destination="w4h-Yf-FEP" id="ZXB-oj-HOV"/>
                         <outlet property="locationTextField" destination="krg-tH-V9N" id="Rrn-zP-0GC"/>

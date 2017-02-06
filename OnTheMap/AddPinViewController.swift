@@ -15,6 +15,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addPin: UIButton!
     @IBOutlet weak var linkTextField: UITextField!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var userLocationString: String?
     var userLocationPoint: CLPlacemark?
@@ -28,6 +29,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         linkTextField.isEnabled = false
         linkTextField.delegate = linkTextfieldDelegate
         locationTextField.delegate = self
+        activityIndicator.hidesWhenStopped = true
     }
     
     //TextField functions
@@ -83,17 +85,19 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
                 self.mapView.addAnnotation(MKPlacemark(placemark: placemark))
                 self.userLocationPoint = placemark
                 self.centerOnMap()
+                self.activityIndicator.stopAnimating()
             }
         })
     }
     
     //add pin
     func findOnMap(){
+        activityIndicator.startAnimating()
         mapView.removeAnnotations(mapView.annotations)
         self.createPin(location: locationTextField.text!)
         self.addPin.setTitle("Submit?", for: .normal)
         if (linkTextField.text == ""){
-            self.linkTextField.placeholder = "Enter Link Info"
+            self.linkTextField.placeholder = "Add A Link?"
         }
         self.linkTextField.isEnabled = true
     }
