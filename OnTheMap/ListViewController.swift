@@ -13,6 +13,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     let client = AppDelegate().client
     
+    //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -21,7 +22,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return true
     }
     
-    //tableview functions
+    //Views
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return client.Students.count
     }

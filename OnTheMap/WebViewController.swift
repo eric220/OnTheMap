@@ -14,15 +14,18 @@ class WebViewController: UIViewController {
     
     var webUrl: NSURL?
     
+    //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         loadWebView()
     }
     
+    //buttons
     @IBAction func cancelSignUp(_ sender: AnyObject) {
         dismiss(animated: true)
     }
     
+    //helpers
     func loadWebView(){
         if let url = webUrl {
             let request = URLRequest(url: url as URL)

@@ -15,21 +15,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var MapView: MKMapView!
     
-    
-    
+    //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
         self.refresh()
     }
     
-    // MARK: - MKMapViewDelegate
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
     }
     
-    //make pins for mapview
+    //Views
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
@@ -45,8 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         return pinView
     }
-    
-    
+        
     //respond to tap to launch url
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
@@ -64,6 +60,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
+    
+    //buttons
     @IBAction func addPin(_ sender: AnyObject) {
         client.getUserData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
@@ -97,17 +95,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    //helpers
     func addPinPage() -> Void{
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
         present(controller, animated: true, completion: nil)
     }
     
     func refresh(){
-        client.getAnnotations{(annotations) -> Void in
-            let mainQ = DispatchQueue.main
-            mainQ.async { () -> Void in
-                self.MapView.removeAnnotations(self.MapView.annotations)
-                self.MapView.addAnnotations(annotations)
+        let a = DispatchQueue.global(qos: .userInitiated)
+        a.async {
+            self.client.getAnnotations{(annotations) -> Void in
+                let mainQ = DispatchQueue.main
+                mainQ.async { () -> Void in
+                    self.MapView.removeAnnotations(self.MapView.annotations)
+                    self.MapView.addAnnotations(annotations)
+                }
             }
         }
     }

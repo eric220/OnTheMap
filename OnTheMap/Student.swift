@@ -20,6 +20,7 @@ struct StudentInformation {
     let mediaURL: String?
     let latitude: Float?
     let longitude: Float?
+    let updatedAt: String?
 
     //build a student
     init(dictionary: [String: AnyObject]){
@@ -31,6 +32,7 @@ struct StudentInformation {
         mediaURL = dictionary[Constants.ResponseKeys.mediaUrl] as! String?
         latitude = dictionary[Constants.ResponseKeys.latitude] as! Float?
         longitude = dictionary[Constants.ResponseKeys.longitude] as! Float?
+        updatedAt = dictionary[Constants.ResponseKeys.updatedAt] as! String?
     }
     
     static func studentsFromResults(_ results: [[String: Any]]) -> [StudentInformation]{
@@ -72,6 +74,10 @@ struct StudentInformation {
             return false
         }
        return true
+    }
+    
+    static func sortByCreatedDate(students: StudentInformation){
+        
     }
 }
 

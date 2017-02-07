@@ -24,6 +24,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     //set delegate
     let linkTextfieldDelegate = LinkTextFieldDelegate()
     
+    //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         linkTextField.isEnabled = false
@@ -32,7 +33,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         activityIndicator.hidesWhenStopped = true
     }
     
-    //TextField functions
+    //Views
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -43,7 +44,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         locationTextField.text = ""
     }
     
-    //button actions
+    //buttons
     @IBAction func goBack(_ sender: AnyObject) {
         dismiss(animated: true, completion: nil)
     }
@@ -61,14 +62,20 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
             //Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
             let alert = client.launchAlert(message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)")
             alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
-                self.client.addStudentPin()
-                self.dismiss(animated: true, completion: nil)}
-            ))
+                self.client.addStudentPin(){success in
+                    if (!success){
+                        let alert = self.client.launchAlert(message: "Failed to post pin")
+                        self.present(alert, animated: true, completion: nil)
+                    } else {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }))
             //push pin to parse, if success set flag
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
+    //helpers
     //center map on location
     func centerOnMap() {
         let location = CLLocationCoordinate2D.init(latitude: (userLocationPoint?.location?.coordinate.latitude)!, longitude: (userLocationPoint?.location?.coordinate.longitude)! )
@@ -86,6 +93,9 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
                 self.userLocationPoint = placemark
                 self.centerOnMap()
                 self.activityIndicator.stopAnimating()
+            } else {
+                let alert = self.client.launchAlert(message: "Failed to geocode location")
+                self.present(alert, animated: true, completion: nil)
             }
         })
     }

@@ -55,7 +55,7 @@ struct Constants {
         static var sessionID = ""
         static var accountKey = ""
         static var firstName = "Eric"
-        static let lastName = "Criteser"
+        static var lastName = "Criteser"
         static var mapString = "Gulf Shores, AL"
         static var mediaUrl = "https://udacity.com"
         static var latitude: Double = 30.272469000000001

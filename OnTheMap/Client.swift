@@ -93,8 +93,11 @@ class Client: NSObject, MKMapViewDelegate {
                     for (key, value) in userDictionary {
                         //set lastName, firstName, has pin
                         let newKey = key as String
-                        if (newKey == "key"){
+                        if (newKey == "first_name"){
+                            Constants.User.firstName = value as! String
                             print(value)
+                        } else if (newKey == "last_name"){
+                            Constants.User.lastName = value as! String
                         }
                     }
                 }
@@ -103,7 +106,7 @@ class Client: NSObject, MKMapViewDelegate {
     }
 
     //post users pin
-    func addStudentPin(){
+    func addStudentPin(handler:@escaping (_ success: Bool) -> Void){
         let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.httpMethod = "POST"
         
@@ -119,9 +122,13 @@ class Client: NSObject, MKMapViewDelegate {
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"uniqueKey\": \"\(Constants.User.accountKey)\", \"firstName\": \"\(Constants.User.firstName)\", \"lastName\": \"Criteser\",\"mapString\": \"Gulf Shores, AL\", \"mediaURL\": \"https://udacity.com\",\"latitude\": \(Constants.User.latitude), \"longitude\": \(Constants.User.longitude)}".data(using: String.Encoding.utf8)
-        taskManager(request: request){(data, response, error) in
+        taskManager(request: request){(data, success, error) in
             self.convertDataWithCompletionHandler(data as! Data){result, error in
+                if (error != nil){
+                    handler(false)
+                }
                 if let result = result?[Constants.ResponseKeys.objectId]! {
+                    handler(true)
                     UserDefaults.standard.set(result, forKey: "UserObjectID")
                 }
             }
@@ -152,26 +159,23 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     func getAnnotations(handler:@escaping (_ annotations: [MKAnnotation]) -> Void){
-        let q = DispatchQueue.global(qos: .userInteractive)
-        q.async { () -> Void in
-            let parameters = ["limit": 10 as AnyObject]
-            let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
-            let request = NSMutableURLRequest(url: urlRequest)
-            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-            self.taskManager(request: request){(data, response, error) in
-                self.convertDataWithCompletionHandler(data as! Data){(result, error) in
-                    if (error != nil){
-                        print("conversion failed")
-                        print(error)
-                    } else {
-                        if let results = result?["results"] as? [[String:AnyObject]] {
-                            let student = StudentInformation.studentsFromResults(results)
-                            self.Students = student
-                            var annotations = [MKPointAnnotation]()
-                            annotations  = self.createMapPoints(dictionary: student)
-                            handler(annotations)
-                        }
+        let parameters = ["limit": 100,
+                          "order": "-updatedAt"] as [String : Any]
+        let urlRequest = self.OTMUrlParameter(parameters: parameters as [String : AnyObject], withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
+        let request = NSMutableURLRequest(url: urlRequest)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        self.taskManager(request: request){(data, response, error) in
+            self.convertDataWithCompletionHandler(data as! Data){(result, error) in
+                if (error != nil){
+                    print("conversion failed")
+                    print(error)
+                } else {
+                    if let results = result?["results"] as? [[String:AnyObject]] {
+                        self.Students = StudentInformation.studentsFromResults(results)
+                        var annotations = [MKPointAnnotation]()
+                        annotations  = self.createMapPoints(dictionary: self.Students)//changed from student
+                        handler(annotations)
                     }
                 }
             }
