@@ -35,12 +35,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         unsubscribeToKeyboardNotifications()
     }
-    
-    //Views
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
 
     //buttons
     @IBAction func loginButton(_ sender: AnyObject) {
@@ -49,16 +43,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         //let email = emailTextField.text
         //let password = passwordTextField.text //need non-redacted value
-        
-        client.loginManager(email: /*email*/Constants.ParameterKeys.userName, password: /*password*/Constants.ParameterKeys.password){(response, error) in
-            if (!response){
-                let alert = self.client.launchAlert(message: "Check Network Connection")
+
+        self.client.authenticateWithUserData(email: Constants.ParameterKeys.userName, password: Constants.ParameterKeys.password){(success, error) in
+            if (error != nil){
+                let alert = self.client.launchAlert(message: "\(error!)")
                 self.present(alert, animated: true, completion: nil)
-                self.setUIEnable()
-            } else if (error!){
-                let alert = self.client.launchAlert(message: "Check User Email And Password")
-                self.present(alert, animated: true, completion: nil)
-                self.setUIEnable()
+                self.setUIEnable()//is this running on a background thread?? USe GCDBlackBox
             } else {
                 let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
                 self.present(controller, animated: true, completion: nil)
@@ -69,9 +59,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func loginWithFacebook(_ sender: AnyObject) {
+        let alert = client.launchAlert(message: "Facebook Login Not enabled")
+        self.present(alert, animated: true, completion:  nil)
         print("facebookLogin")
     }
     
+    //Views
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    //functions
     //MARK: keyboard notifications
     func subscribeToKeyboardNotifications(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -107,7 +106,7 @@ private extension LoginViewController {
     func setUIDisable(sender: UIButton){
         if (sender.currentTitle! == "Login"){
             sender.setTitle("Logging In", for: UIControlState.normal)
-            //UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat, .autoreverse], animations: {sender.alpha = 0.2}, completion: nil)
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat, .autoreverse], animations: {sender.alpha = 0.2}, completion: nil)
             passwordTextField.isEnabled = false
             emailTextField.isEnabled = false
             signIn.isEnabled = false
@@ -115,8 +114,8 @@ private extension LoginViewController {
         }
     }
     
-    func setUIEnable(){
-        UIView.setAnimationsEnabled(false)
+    func setUIEnable(){ 
+        loginButtonOutlet.alpha = 1
         loginButtonOutlet.setTitle("Login", for: UIControlState.normal)
         loginButtonOutlet.isEnabled = true
         passwordTextField.isEnabled = true

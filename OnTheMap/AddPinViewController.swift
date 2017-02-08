@@ -33,17 +33,6 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         activityIndicator.hidesWhenStopped = true
     }
     
-    //Views
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.addPin.setTitle("Find On Map", for: .normal)
-        locationTextField.text = ""
-    }
-    
     //buttons
     @IBAction func goBack(_ sender: AnyObject) {
         dismiss(animated: true, completion: nil)
@@ -75,7 +64,19 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
             self.present(alert, animated: true, completion: nil)
         }
     }
-    //helpers
+    
+    //Views
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.addPin.setTitle("Find On Map", for: .normal)
+        locationTextField.text = ""
+    }
+
+    //functions
     //center map on location
     func centerOnMap() {
         let location = CLLocationCoordinate2D.init(latitude: (userLocationPoint?.location?.coordinate.latitude)!, longitude: (userLocationPoint?.location?.coordinate.longitude)! )

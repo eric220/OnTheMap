@@ -25,7 +25,7 @@ class WebViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    //helpers
+    //functions
     func loadWebView(){
         if let url = webUrl {
             let request = URLRequest(url: url as URL)
@@ -35,6 +35,5 @@ class WebViewController: UIViewController {
             let request = URLRequest(url: url as! URL)
             uiWebView.loadRequest(request)
         }
-        
     }
 }

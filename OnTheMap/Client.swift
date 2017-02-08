@@ -46,35 +46,40 @@ class Client: NSObject, MKMapViewDelegate {
     }
     
     //task manager for tasks
-    func taskManager(request: NSMutableURLRequest, handler:@escaping (_ data: AnyObject?, _ success: Bool, _ error: NSError?) -> Void) {
+    func taskManager(request: NSMutableURLRequest, handler:@escaping (_ data: AnyObject?, _ error: String?) -> Void) {
         let session = URLSession.shared
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
-            func printError(err: String){
-                print(err)
-                handler(nil, false, error as NSError?)
+            func sendError(_ error: String) {
+                print(error)
+                print("End")
+                handler(nil, error)
+                //let userInfo = [NSLocalizedDescriptionKey : error]
+                //handler(nil, NSError(domain: "taskManager", code: 1, userInfo: userInfo))
+            }
+            
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error!)")
+                return
             }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                print("Your request returned a status code other than 2xx!")
-                handler(nil, false, nil )
+                sendError("Your request returned a status code other than 2xx! Check credentials")
                 return
             }
             
-            if error != nil { // Handle error…
-                printError(err: "returned an error")
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                sendError("No data was returned by the request!")
                 return
             }
             
-            if let data = data {
-                handler(data as AnyObject?, true, nil)
-                return
-            }
+            handler(data as AnyObject?,nil)
         }
         task.resume()
     } 
 
     //get users data and see if pin posted
-    func getUserData() {
+   /* func getUserData() {
         let parameters = [String: AnyObject]()
         let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/users/\(Constants.User.accountKey)", withHost: Constants.URL.APIHostUdacity)
         let request = NSMutableURLRequest(url: urlRequest)
@@ -95,15 +100,14 @@ class Client: NSObject, MKMapViewDelegate {
                         let newKey = key as String
                         if (newKey == "first_name"){
                             Constants.User.firstName = value as! String
-                            print(value)
                         } else if (newKey == "last_name"){
                             Constants.User.lastName = value as! String
                         }
                     }
-                }
+                    }
             }
         }
-    }
+    }*/
 
     //post users pin
     func addStudentPin(handler:@escaping (_ success: Bool) -> Void){
@@ -122,7 +126,7 @@ class Client: NSObject, MKMapViewDelegate {
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"uniqueKey\": \"\(Constants.User.accountKey)\", \"firstName\": \"\(Constants.User.firstName)\", \"lastName\": \"Criteser\",\"mapString\": \"Gulf Shores, AL\", \"mediaURL\": \"https://udacity.com\",\"latitude\": \(Constants.User.latitude), \"longitude\": \(Constants.User.longitude)}".data(using: String.Encoding.utf8)
-        taskManager(request: request){(data, success, error) in
+        taskManager(request: request){(data, error) in
             self.convertDataWithCompletionHandler(data as! Data){result, error in
                 if (error != nil){
                     handler(false)
@@ -130,53 +134,6 @@ class Client: NSObject, MKMapViewDelegate {
                 if let result = result?[Constants.ResponseKeys.objectId]! {
                     handler(true)
                     UserDefaults.standard.set(result, forKey: "UserObjectID")
-                }
-            }
-        }
-    }
-    
-    //create map points from student dictionary
-    func createMapPoints(dictionary: [StudentInformation]) -> [MKPointAnnotation]{
-        var annotations = [MKPointAnnotation]()
-        for dictionary in dictionary {
-            let lat = CLLocationDegrees(dictionary.latitude as Float!)
-            let long = CLLocationDegrees(dictionary.longitude as Float!)
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            let first = (dictionary.firstName as String!)!
-            let last = (dictionary.lastName as String!)!
-            let mediaURL = (dictionary.mediaURL as String!)!
-            
-            //create annotation and attach data
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(first) \(last)"
-            annotation.subtitle = mediaURL
-            
-            //place the annotation in an array of annotations.
-            annotations.append(annotation)
-        }
-        return annotations
-    }
-    
-    func getAnnotations(handler:@escaping (_ annotations: [MKAnnotation]) -> Void){
-        let parameters = ["limit": 100,
-                          "order": "-updatedAt"] as [String : Any]
-        let urlRequest = self.OTMUrlParameter(parameters: parameters as [String : AnyObject], withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
-        let request = NSMutableURLRequest(url: urlRequest)
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        self.taskManager(request: request){(data, response, error) in
-            self.convertDataWithCompletionHandler(data as! Data){(result, error) in
-                if (error != nil){
-                    print("conversion failed")
-                    print(error)
-                } else {
-                    if let results = result?["results"] as? [[String:AnyObject]] {
-                        self.Students = StudentInformation.studentsFromResults(results)
-                        var annotations = [MKPointAnnotation]()
-                        annotations  = self.createMapPoints(dictionary: self.Students)//changed from student
-                        handler(annotations)
-                    }
                 }
             }
         }

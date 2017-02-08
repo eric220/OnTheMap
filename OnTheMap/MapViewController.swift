@@ -19,51 +19,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
-        self.refresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-    }
-    
-    //Views
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
-        let reuseId = "pin"
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
-        if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView!.canShowCallout = true
-            pinView!.pinTintColor = .red
-            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-        }
-        else {
-            pinView!.annotation = annotation
-        }
-        return pinView
-    }
-        
-    //respond to tap to launch url
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView {
-            let app = UIApplication.shared
-            if let toOpen = view.annotation?.subtitle! {
-                let url = URL(string: toOpen)!
-                //print(url)
-                if (app.canOpenURL(url as URL)){
-                        let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
-                        controller.webUrl = url as NSURL?
-                        present(controller, animated: true, completion: nil)
-                }else {
-                    print("cannot open url")
-                }
-            }
-        }
+        self.refresh()
     }
     
     //buttons
     @IBAction func addPin(_ sender: AnyObject) {
-        client.getUserData()
+        //client.getUserData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
             let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
@@ -95,7 +60,42 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    //helpers
+    //Views
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = .red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        return pinView
+    }
+    
+    //respond to tap to launch url
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            let app = UIApplication.shared
+            if let toOpen = view.annotation?.subtitle! {
+                let url = URL(string: toOpen)!
+                //print(url)
+                if (app.canOpenURL(url as URL)){
+                    let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+                    controller.webUrl = url as NSURL?
+                    present(controller, animated: true, completion: nil)
+                }else {
+                    print("cannot open url")
+                }
+            }
+        }
+    }
+    
+    //functions
     func addPinPage() -> Void{
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
         present(controller, animated: true, completion: nil)

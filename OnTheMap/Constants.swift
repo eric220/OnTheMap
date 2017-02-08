@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 
 struct Constants {
-    struct Methods {
-        static let getmethod = "get"
-    }
     
     struct ParameterKeys{
         static let userName = "criteser2@gmail.com"
@@ -25,10 +22,6 @@ struct Constants {
         static let APIHostUdacity = "www.udacity.com"
         static let APIHostParse = "www.parse.udacity.com"
         static let APIHostParseNoWWW = "parse.udacity.com"
-        static let APIPath = "api/"
-        static let APISession = "session"
-        static let APIUser = "user"
-        static let url = "https://parse.udacity.com/parse/classes/StudentLocation"
     }
     
     struct ResponseKeys {
@@ -45,9 +38,7 @@ struct Constants {
         static let mediaUrl = "mediaURL"
         static let latitude = "latitude"
         static let longitude = "longitude"
-        static let createdAt = "createdAt"
         static let updatedAt = "updatedAt"
-        static let ACL = true
 
     }
     
