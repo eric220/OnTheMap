@@ -29,21 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        /*let parameters = [String: AnyObject]()
-        let urlRequest = Client.sharedInstance().OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
-        let request = NSMutableURLRequest(url: urlRequest)
-        request.httpMethod = "DELETE"
-        var xsrfCookie: HTTPCookie? = nil
-        let sharedCookieStorage = HTTPCookieStorage.shared
-        for cookie in sharedCookieStorage.cookies! {
-            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-        }
-        if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-        }
-        client.taskManager(request: request){(data, response, error) in
-            print("session deleted")
-        }*/
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -62,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkForUserID() {
         if UserDefaults.standard.bool(forKey: "HasUserObjectID") {
             print("Pin Has Been Placed")
+            print(UserDefaults.standard.value(forKey: "UserObjectID"))
         } else {
             print("There is no UserObjectID!")
             UserDefaults.standard.set(nil, forKey: "UserObjectID")

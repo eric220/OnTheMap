@@ -11,19 +11,6 @@ import UIKit
 import MapKit
 
 extension Client{
-    
-    func authenticateWithUserData(email: String, password: String, loginWithDataHandler: @escaping(_ success: Bool, _ error: String?) -> Void ){
-        self.loginManager(email: email, password: password){(success, error)in
-            if (success){
-                self.getUserData(){(success, error) in
-                    loginWithDataHandler(success, error)
-                }
-            }else {
-                loginWithDataHandler(success, error)
-            }
-        }
-        
-    }
 
     func logout(handler:@escaping (_ response: Bool, _ error: String?) -> Void) {
         let parameters = [String: AnyObject]()
@@ -114,13 +101,12 @@ extension Client{
                 }
                 
                 for (key, value) in userDictionary {
-                    //set lastName, firstName, has pin
+                    //set lastName, firstName
                     let newKey = key as String
                     if (newKey == "first_name"){
                         Constants.User.firstName = value as! String
                     } else if (newKey == "last_name"){
                         Constants.User.lastName = value as! String
-                        print(value)
                     }
                 }
                 getDataHandler(true, nil)
@@ -151,7 +137,7 @@ extension Client{
         return annotations
     }
     
-    func getAnnotations(handler:@escaping (_ annotations: [MKAnnotation]) -> Void){
+    func getAnnotations(handler:@escaping (_ error: String?, _ annotations: [MKAnnotation]?) -> Void){
         let parameters = ["limit": 100,
                           "order": "-updatedAt"] as [String : Any]
         let urlRequest = self.OTMUrlParameter(parameters: parameters as [String : AnyObject], withPathExtension: "/parse/classes/StudentLocation", withHost: Constants.URL.APIHostParseNoWWW)
@@ -159,17 +145,20 @@ extension Client{
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         self.taskManager(request: request){(data, error) in
+            guard (error == nil) else{
+                handler(error, nil)
+                return
+            }
             self.convertDataWithCompletionHandler(data as! Data){(result, error) in
-                if (error != nil){
-                    print("conversion failed")
-                    print(error)
-                } else {
-                    if let results = result?["results"] as? [[String:AnyObject]] {
-                        self.Students = StudentInformation.studentsFromResults(results)
-                        var annotations = [MKPointAnnotation]()
-                        annotations  = self.createMapPoints(dictionary: self.Students)//changed from student
-                        handler(annotations)
-                    }
+                guard (error == nil) else{
+                    handler("failed to parse", nil)
+                    return
+                }
+                if let results = result?["results"] as? [[String:AnyObject]] {
+                    self.Students = StudentInformation.studentsFromResults(results)
+                    var annotations = [MKPointAnnotation]()
+                    annotations  = self.createMapPoints(dictionary: self.Students)//changed from student
+                    handler(nil, annotations)
                 }
             }
         }

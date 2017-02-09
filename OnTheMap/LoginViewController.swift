@@ -39,22 +39,29 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //buttons
     @IBAction func loginButton(_ sender: AnyObject) {
         //make flash?? Make a UI control function
-        setUIDisable(sender: loginButtonOutlet)
+        //setUIDisable(sender: loginButtonOutlet)
         
         //let email = emailTextField.text
         //let password = passwordTextField.text //need non-redacted value
 
         self.client.authenticateWithUserData(email: Constants.ParameterKeys.userName, password: Constants.ParameterKeys.password){(success, error) in
-            if (error != nil){
-                let alert = self.client.launchAlert(message: "\(error!)")
-                self.present(alert, animated: true, completion: nil)
-                self.setUIEnable()//is this running on a background thread?? USe GCDBlackBox
-            } else {
-                let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-                self.present(controller, animated: true, completion: nil)
+            performUIUpdatesOnMain {
+                if (error != nil){
+                    let alert = UIAlertController(title: "Alert", message: "\(error!)", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: {action in
+                        print("hello")
+                        //self.loginButtonOutlet.cancelTracking(with: Any)
+                        //self.setUIEnable()
+                    }))
+                    self.present(alert, animated: true, completion:nil)
+                } else {
+                    let controller = self.storyboard!.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+                    self.present(controller, animated: true, completion: nil)
+                }
             }
         }
     }
+    
     @IBAction func signUpButton(_ sender: AnyObject) {
     }
     

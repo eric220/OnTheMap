@@ -42,21 +42,29 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
         if (addPin.titleLabel?.text == "Find On Map"){
             findOnMap()
         } else if (addPin.titleLabel?.text == "Submit?"){
-            if let lat = self.userLocationPoint?.location?.coordinate.latitude {
-                Constants.User.latitude = Double(lat)
+            guard let lat = self.userLocationPoint?.location?.coordinate.latitude else{
+                print("lat")
+                return// use closure??
             }
-            if let long = self.userLocationPoint?.location?.coordinate.longitude {
-            Constants.User.longitude = Double(long)
+            guard let long = self.userLocationPoint?.location?.coordinate.longitude else{
+                print("long")
+                return
             }
-            //Constants.User.mediaUrl = linkTextField.text! // need to protect against nil
-            let alert = client.launchAlert(message: "Do you want to post: Location: \(locationTextField.text!) and Link: \(linkTextField.text!)")
+            
+            let locationTextString = "\((self.userLocationPoint?.locality)!), \((self.userLocationPoint?.administrativeArea)!)."
+            
+            let media: String? = linkTextField.text
+            
+            let alert = client.launchAlert(message: "Do you want to post: Location: \(locationTextString) and Link: \(linkTextField.text!)")
             alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
-                self.client.addStudentPin(){success in
-                    if (!success){
-                        let alert = self.client.launchAlert(message: "Failed to post pin")
-                        self.present(alert, animated: true, completion: nil)
-                    } else {
-                        self.dismiss(animated: true, completion: nil)
+                self.client.addStudentPin(lat: lat, long: long, loc: locationTextString, media: media){success in
+                    performUIUpdatesOnMain {
+                        if (!success){
+                            let alert = self.client.launchAlert(message: "Failed to post pin")
+                            self.present(alert, animated: true, completion: nil)
+                        } else {
+                            self.dismiss(animated: true, completion: nil)
+                        }
                     }
                 }
             }))

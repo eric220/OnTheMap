@@ -45,9 +45,9 @@ struct Constants {
     struct User {
         static var sessionID = ""
         static var accountKey = ""
-        static var firstName = "Eric"
-        static var lastName = "Criteser"
-        static var mapString = "Gulf Shores, AL"
+        static var firstName = ""
+        static var lastName = ""
+        static var mapString = ""
         static var mediaUrl = "https://udacity.com"
         static var latitude: Double = 30.272469000000001
         static var longitude: Double = -80.194702000000007

@@ -43,21 +43,16 @@ struct StudentInformation {
             
             //check for valid and unique student
             if (isValidStudent(student: student)){
-                if (doesContainStudent(name: student.lastName!, set: studentSet)){ //maybe check for last createdAt??
-                        studentSet.insert(student.lastName!)
-                        students.append(student)
+                if (!Constants.User.hasPin){
+                    if (studentSet.contains(Constants.User.lastName)){
+                        Constants.User.hasPin = true
+                    }
                 }
+                studentSet.insert(student.lastName!)
+                students.append(student)
             }
         }
         return students
-    }
-    // compare last name to list if on, exclude. Set flag for self included in list
-    static func doesContainStudent(name: String, set: Set<String>) -> Bool{
-        if (set.contains(name)){
-            return false
-        } else {
-        return true
-        }
     }
     
     static func isValidStudent(student: StudentInformation) -> Bool{

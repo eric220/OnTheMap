@@ -24,7 +24,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //buttons
     @IBAction func refreshButton(_ sender: AnyObject) {
-        print("refresh")
         client.getAnnotations{(annotations) -> Void in
             let mainQ = DispatchQueue.main
             mainQ.async { () -> Void in

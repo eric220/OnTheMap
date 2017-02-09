@@ -28,8 +28,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     //buttons
     @IBAction func addPin(_ sender: AnyObject) {
-        //client.getUserData()
-        if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
+        if (Constants.User.hasPin){
             let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
                 self.addPinPage()
@@ -83,7 +82,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
                 let url = URL(string: toOpen)!
-                //print(url)
                 if (app.canOpenURL(url as URL)){
                     let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
                     controller.webUrl = url as NSURL?
@@ -104,11 +102,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func refresh(){
         let a = DispatchQueue.global(qos: .userInitiated)
         a.async {
-            self.client.getAnnotations{(annotations) -> Void in
-                let mainQ = DispatchQueue.main
-                mainQ.async { () -> Void in
-                    self.MapView.removeAnnotations(self.MapView.annotations)
-                    self.MapView.addAnnotations(annotations)
+            self.client.getAnnotations{(error, annotations) -> Void in
+                guard (error == nil) else{
+                    let alert = self.client.launchAlert(message: error!)
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                if let annotations = annotations {
+                    let mainQ = DispatchQueue.main
+                    mainQ.async { () -> Void in
+                        self.MapView.removeAnnotations(self.MapView.annotations)
+                        self.MapView.addAnnotations(annotations)
+                    }
                 }
             }
         }
