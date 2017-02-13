@@ -68,13 +68,13 @@
                             <constraint firstItem="7Y8-Od-VUV" firstAttribute="top" secondItem="oMF-ic-19Y" secondAttribute="bottom" constant="20" id="5cs-Yr-m7M"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8eN-Ce-LnT" secondAttribute="bottom" constant="25" id="5db-z7-qkk"/>
                             <constraint firstItem="8eN-Ce-LnT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="73X-ly-fdy"/>
-                            <constraint firstItem="oMF-ic-19Y" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="AND-Fo-lJs"/>
                             <constraint firstItem="0Zz-yD-Aad" firstAttribute="top" secondItem="0C1-Ia-UjY" secondAttribute="bottom" constant="10" id="BYY-C9-7Id"/>
                             <constraint firstItem="7Y8-Od-VUV" firstAttribute="centerX" secondItem="oMF-ic-19Y" secondAttribute="centerX" id="ES9-Mc-Nhp"/>
                             <constraint firstItem="0C1-Ia-UjY" firstAttribute="centerX" secondItem="py2-c6-MV8" secondAttribute="centerX" id="FKY-38-6XE"/>
                             <constraint firstItem="py2-c6-MV8" firstAttribute="top" secondItem="YrF-sa-I3h" secondAttribute="bottom" constant="10" id="Qy2-gn-TS5"/>
                             <constraint firstItem="YrF-sa-I3h" firstAttribute="top" secondItem="7Y8-Od-VUV" secondAttribute="bottom" constant="10" id="RZZ-zz-EnE"/>
                             <constraint firstItem="0C1-Ia-UjY" firstAttribute="top" secondItem="py2-c6-MV8" secondAttribute="bottom" constant="10" id="U3p-3c-npC"/>
+                            <constraint firstItem="oMF-ic-19Y" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="XGg-oe-WPy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="py2-c6-MV8" secondAttribute="trailing" constant="25" id="XrO-Hk-IXu"/>
                             <constraint firstItem="0Zz-yD-Aad" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="boh-0r-oq4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0Zz-yD-Aad" secondAttribute="trailing" id="isS-RU-PIV"/>
@@ -298,7 +298,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bqt-rm-8fV" id="y7G-9n-OLs">
-                                            <frame key="frameInset" width="343" height="43"/>
+                                            <frame key="frameInset" width="343" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>

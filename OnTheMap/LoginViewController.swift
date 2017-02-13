@@ -16,7 +16,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var facebookLogin: UIButton!
     
     let textFieldDelegatePassword = PasswordTextfieldDelegate()
-    let client = AppDelegate().client
 
     
     //lifecycle
@@ -44,7 +43,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         //let email = emailTextField.text
         //let password = passwordTextField.text //need non-redacted value
 
-        self.client.authenticateWithUserData(email: Constants.ParameterKeys.userName, password: Constants.ParameterKeys.password){(success, error) in
+        Client.sharedInstance.authenticateWithUserData(email: Constants.ParameterKeys.userName, password: Constants.ParameterKeys.password){(success, error) in
             performUIUpdatesOnMain {
                 if (error != nil){
                     let alert = UIAlertController(title: "Alert", message: "\(error!)", preferredStyle: UIAlertControllerStyle.alert)
@@ -66,7 +65,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func loginWithFacebook(_ sender: AnyObject) {
-        let alert = client.launchAlert(message: "Facebook Login Not enabled")
+        let alert =  launchAlert(message: "Facebook login not enabled at this time")
         self.present(alert, animated: true, completion:  nil)
         print("facebookLogin")
     }
@@ -96,8 +95,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func keyboardWillShow(notification: NSNotification){
-        if passwordTextField.isFirstResponder{
-            print(getKeyboardHeight(notification: notification) * -1)
+        if passwordTextField.isFirstResponder{ 
             self.view.frame.origin.y = -50//getKeyboardHeight(notification: notification) * -1
         }
     }

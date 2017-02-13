@@ -11,8 +11,6 @@ import UIKit
 
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    let client = AppDelegate().client
-    
     //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +22,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //buttons
     @IBAction func refreshButton(_ sender: AnyObject) {
-        client.getAnnotations{(annotations) -> Void in
+        Client.sharedInstance.getAnnotations{(annotations) -> Void in
             let mainQ = DispatchQueue.main
             mainQ.async { () -> Void in
                 
@@ -35,7 +33,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func addPinButton(_ sender: AnyObject) {
         //client.getUserData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
-            let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
+            let alert = launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
                 self.addPinPage()
             }))
@@ -48,15 +46,15 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func logoutButton(_ sender: AnyObject) {
         let b = DispatchQueue.global(qos: .userInitiated)
         b.async {
-            self.client.logout(){(response, error) in
+            Client.sharedInstance.logout(){(response, error) in
                 let mainQ = DispatchQueue.main
                 mainQ.async {
                     var alert: UIAlertController? = nil
                     if (error != nil){
-                        alert = self.client.launchAlert(message: "Error Logging Out, Please Try Again")
+                        alert = launchAlert(message: "Error Logging Out, Please Try Again")
                         self.present(alert!, animated: true, completion: nil)
                     } else if (!response){
-                        alert = self.client.launchAlert(message: "Network Difficulty, Check Network Connection")
+                        alert = launchAlert(message: "Network Difficulty, Check Network Connection")
                         self.present(alert!, animated: true, completion: nil)
                     } else {
                         print("logout complete")
@@ -69,20 +67,20 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //Views
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return client.Students.count
+        return Client.sharedInstance.Students.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //get and populate cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let student = client.Students[(indexPath as NSIndexPath).row]
+        let student = Client.sharedInstance.Students[(indexPath as NSIndexPath).row]
         cell.textLabel?.text = "\(student.lastName!), \(student.firstName!)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let app = UIApplication.shared
-        let student = client.Students[(indexPath).row]
+        let student = Client.sharedInstance.Students[(indexPath).row]
         if let url = NSURL(string: student.mediaURL!) {
             if (app.canOpenURL(url as URL)){
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController

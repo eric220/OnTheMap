@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA05AF061E4CC4E4003A69E9 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA05AF051E4CC4E4003A69E9 /* Alert.swift */; };
 		FA1568381E097F740053D821 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1568371E097F740053D821 /* MapViewController.swift */; };
 		FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1568391E097F8F0053D821 /* ListViewController.swift */; };
 		FA28009B1E48F02D00CDF278 /* Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA28009A1E48F02D00CDF278 /* Convenience.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA05AF051E4CC4E4003A69E9 /* Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		FA1568371E097F740053D821 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		FA1568391E097F8F0053D821 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		FA28009A1E48F02D00CDF278 /* Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convenience.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				FAE9B1191E04365F00E1847E /* PasswordTextfieldDelegate.swift */,
 				FA49B30D1E3F951B00DA4905 /* LinkTextFieldDelegate.swift */,
 				FAE9B1261E04844E00E1847E /* GCDBlackBox.swift */,
+				FA05AF051E4CC4E4003A69E9 /* Alert.swift */,
 				FAE9B0EC1E0387ED00E1847E /* Main.storyboard */,
 				FAE9B1181E0389DB00E1847E /* Models */,
 				FAE9B1171E0389CF00E1847E /* Views */,
@@ -330,6 +333,7 @@
 				FAE9B1251E044B0300E1847E /* WebViewController.swift in Sources */,
 				FA1568381E097F740053D821 /* MapViewController.swift in Sources */,
 				FA49B30A1E38351300DA4905 /* AddPinViewController.swift in Sources */,
+				FA05AF061E4CC4E4003A69E9 /* Alert.swift in Sources */,
 				FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */,
 				FAE9B0EB1E0387ED00E1847E /* LoginViewController.swift in Sources */,
 				FA720B4A1E25C77800675A1F /* Student.swift in Sources */,

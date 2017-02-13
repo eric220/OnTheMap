@@ -19,6 +19,4 @@ class LinkTextFieldDelegate: NSObject, UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
     }
-    
-    //check for valid url
 }

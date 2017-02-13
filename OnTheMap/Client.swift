@@ -122,11 +122,5 @@ class Client: NSObject, MKMapViewDelegate {
         }
     }
     
-    class func sharedInstance() -> Client {
-        struct Singleton {
-            static var sharedInstance = Client()
-        }
-        return Singleton.sharedInstance
-    }
-
+    static var sharedInstance = Client()
 }

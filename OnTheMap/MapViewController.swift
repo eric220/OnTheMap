@@ -11,8 +11,6 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-    let client = AppDelegate().client
-    
     @IBOutlet weak var MapView: MKMapView!
     
     //lifecycle
@@ -29,7 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //buttons
     @IBAction func addPin(_ sender: AnyObject) {
         if (Constants.User.hasPin){
-            let alert = client.launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
+            let alert = launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
                 self.addPinPage()
             }))
@@ -44,13 +42,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func logoutButton(_ sender: AnyObject) {
-        client.logout(){(response, error) in
+        Client.sharedInstance.logout(){(response, error) in
             var alert: UIAlertController? = nil
             if (error != nil){
-                alert = self.client.launchAlert(message: "Error Logging Out, Please Try Again")
+                alert = launchAlert(message: "Error Logging Out, Please Try Again")
                 self.present(alert!, animated: true, completion: nil)
             } else if (!response){
-                alert = self.client.launchAlert(message: "Network Difficulty, Check Network Connection")
+                alert = launchAlert(message: "Network Difficulty, Check Network Connection")
                 self.present(alert!, animated: true, completion: nil)
             } else {
                 print("logout complete")
@@ -102,9 +100,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func refresh(){
         let a = DispatchQueue.global(qos: .userInitiated)
         a.async {
-            self.client.getAnnotations{(error, annotations) -> Void in
+            Client.sharedInstance.getAnnotations{(error, annotations) -> Void in
                 guard (error == nil) else{
-                    let alert = self.client.launchAlert(message: error!)
+                    let alert = launchAlert(message: error!)
                     self.present(alert, animated: true, completion: nil)
                     return
                 }

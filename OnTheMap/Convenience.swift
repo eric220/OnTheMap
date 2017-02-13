@@ -14,7 +14,7 @@ extension Client{
 
     func logout(handler:@escaping (_ response: Bool, _ error: String?) -> Void) {
         let parameters = [String: AnyObject]()
-        let urlRequest = Client.sharedInstance().OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
+        let urlRequest = Client.sharedInstance.OTMUrlParameter(parameters: parameters, withPathExtension: "/api/session", withHost: Constants.URL.APIHostUdacity)
         let request = NSMutableURLRequest(url: urlRequest)
         request.httpMethod = "DELETE"
         var xsrfCookie: HTTPCookie? = nil
@@ -162,11 +162,5 @@ extension Client{
                 }
             }
         }
-    }
-    
-    func launchAlert(message: String) -> UIAlertController {
-        let alert = UIAlertController(title: "Alert", message: "\(message)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
-        return alert
     }
 }

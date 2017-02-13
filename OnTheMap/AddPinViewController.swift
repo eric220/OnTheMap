@@ -19,7 +19,6 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     
     var userLocationString: String?
     var userLocationPoint: CLPlacemark?
-    let client = AppDelegate().client
     
     //set delegate
     let linkTextfieldDelegate = LinkTextFieldDelegate()
@@ -55,12 +54,12 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
             
             let media: String? = linkTextField.text
             
-            let alert = client.launchAlert(message: "Do you want to post: Location: \(locationTextString) and Link: \(linkTextField.text!)")
+            let alert = launchAlert(message: "Do you want to post: Location: \(locationTextString) and Link: \(linkTextField.text!)")
             alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
-                self.client.addStudentPin(lat: lat, long: long, loc: locationTextString, media: media){success in
+                Client.sharedInstance.addStudentPin(lat: lat, long: long, loc: locationTextString, media: media){success in
                     performUIUpdatesOnMain {
                         if (!success){
-                            let alert = self.client.launchAlert(message: "Failed to post pin")
+                            let alert = launchAlert(message: "Failed to post pin")
                             self.present(alert, animated: true, completion: nil)
                         } else {
                             self.dismiss(animated: true, completion: nil)
@@ -103,7 +102,7 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
                 self.centerOnMap()
                 self.activityIndicator.stopAnimating()
             } else {
-                let alert = self.client.launchAlert(message: "Failed to geocode location")
+                let alert = launchAlert(message: "Failed to geocode location")
                 self.present(alert, animated: true, completion: nil)
             }
         })
