@@ -85,10 +85,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="288" height="23"/>
                                                         <state key="normal" title="Don't have an account? Sign In"/>
                                                         <connections>
-                                                            <action selector="signUpButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Re8-TZ-brM"/>
-                                                            <segue destination="6Kx-kb-J6w" kind="popoverPresentation" popoverAnchorView="0Zz-yD-Aad" id="Xwz-PN-Egm">
-                                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                            </segue>
+                                                            <action selector="signUpButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="721-cs-g9y"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -157,15 +154,15 @@
                         <viewControllerLayoutGuide type="bottom" id="CnD-If-uXV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Qc1-Za-fTN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQ3-hS-Shv">
-                                <rect key="frame" x="16" y="20" width="343" height="647"/>
+                                <rect key="frame" x="16" y="20" width="288" height="460"/>
                                 <color key="backgroundColor" red="0.87936575370000003" green="1" blue="0.97684146149999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IdS-14-SqV">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem title="cancel" id="mvO-YG-89z">

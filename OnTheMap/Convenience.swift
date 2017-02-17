@@ -152,9 +152,9 @@ extension Client{
                     return
                 }
                 if let results = result?["results"] as? [[String:AnyObject]] {
-                    self.Students = StudentInformation.studentsFromResults(results)
+                    StudentInformation.StudentsArray = StudentInformation.studentsFromResults(results)
                     var annotations = [MKPointAnnotation]()
-                    annotations  = self.createMapPoints(dictionary: self.Students)//changed from student
+                    annotations  = self.createMapPoints(dictionary: StudentInformation.StudentsArray)//changed from student
                     handler(nil, annotations)
                 }
             }

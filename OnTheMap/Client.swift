@@ -12,8 +12,6 @@ import MapKit
 
 class Client: NSObject, MKMapViewDelegate {
     
-    var Students = [StudentInformation]()
-    
     //build url by components
     func OTMUrlParameter(parameters: [String:AnyObject], withPathExtension: String? = nil, withHost: String? = nil) -> URL {
         

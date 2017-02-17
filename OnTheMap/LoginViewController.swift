@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
@@ -63,6 +64,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func signUpButton(_ sender: AnyObject) {
+        let url = NSURL(string:"https://www.udacity.com/account/auth#!/signup")
+        let svc = SFSafariViewController(url: url as! URL)
+        present(svc, animated: true, completion: nil)
     }
     
     @IBAction func loginWithFacebook(_ sender: AnyObject) {

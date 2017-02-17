@@ -12,6 +12,9 @@ import UIKit
 
 struct StudentInformation {
     // MARK: properties
+    
+    static var StudentsArray : [StudentInformation] = []
+    
     let objectId: String?
     let uniqueKey: String?
     let firstName: String?

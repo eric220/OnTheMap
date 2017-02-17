@@ -101,7 +101,10 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
                 self.activityIndicator.stopAnimating()
             } else {
                 let alert = launchAlert(message: "Failed to geocode location")
-                self.present(alert, animated: true, completion: nil)
+                //self.present(alert, animated: true, completion: nil)
+                self.present(alert, animated: true){ action in
+                    self.activityIndicator.stopAnimating()
+                }
             }
         })
     }

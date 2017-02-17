@@ -35,7 +35,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func addPinButton(_ sender: AnyObject) {
-        //client.getUserData()
         if (UserDefaults.standard.bool(forKey: "HasUserObjectID")){
             let alert = launchAlert(message: "You already have a posted pin. Would you like to overwrite it?")
             alert.addAction(UIAlertAction(title: "Overwrite", style: UIAlertActionStyle.default, handler: { action in
@@ -71,20 +70,20 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //Views
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Client.sharedInstance.Students.count
+        return StudentInformation.StudentsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //get and populate cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        let student = Client.sharedInstance.Students[(indexPath as NSIndexPath).row]
+        let student = StudentInformation.StudentsArray[(indexPath).row]
         cell.textLabel?.text = "\(student.lastName!), \(student.firstName!)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let app = UIApplication.shared
-        let student = Client.sharedInstance.Students[(indexPath).row]
+        let student = StudentInformation.StudentsArray[(indexPath).row]
         if let url = NSURL(string: student.mediaURL!) {
             if (app.canOpenURL(url as URL)){
                 let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController

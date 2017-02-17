@@ -30,10 +30,9 @@ class WebViewController: UIViewController {
         if let url = webUrl {
             let request = URLRequest(url: url as URL)
             uiWebView.loadRequest(request)
-        } else {
-            let url = NSURL(string:"https://www.udacity.com/account/auth#!/signup")
-            let request = URLRequest(url: url as! URL)
-            uiWebView.loadRequest(request)
+        }else {
+            let alert = launchAlert(message: "Cannot Open URL")
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
