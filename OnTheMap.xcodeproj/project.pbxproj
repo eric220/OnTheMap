@@ -13,7 +13,7 @@
 		FA28009B1E48F02D00CDF278 /* Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA28009A1E48F02D00CDF278 /* Convenience.swift */; };
 		FA49B30A1E38351300DA4905 /* AddPinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA49B3091E38351300DA4905 /* AddPinViewController.swift */; };
 		FA49B30E1E3F951B00DA4905 /* LinkTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA49B30D1E3F951B00DA4905 /* LinkTextFieldDelegate.swift */; };
-		FA720B4A1E25C77800675A1F /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA720B491E25C77800675A1F /* Student.swift */; };
+		FA720B4A1E25C77800675A1F /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA720B491E25C77800675A1F /* StudentInformation.swift */; };
 		FAE9B0E91E0387ED00E1847E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */; };
 		FAE9B0EB1E0387ED00E1847E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9B0EA1E0387ED00E1847E /* LoginViewController.swift */; };
 		FAE9B0EE1E0387ED00E1847E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE9B0EC1E0387ED00E1847E /* Main.storyboard */; };
@@ -52,7 +52,7 @@
 		FA28009A1E48F02D00CDF278 /* Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convenience.swift; sourceTree = "<group>"; };
 		FA49B3091E38351300DA4905 /* AddPinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPinViewController.swift; sourceTree = "<group>"; };
 		FA49B30D1E3F951B00DA4905 /* LinkTextFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkTextFieldDelegate.swift; sourceTree = "<group>"; };
-		FA720B491E25C77800675A1F /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		FA720B491E25C77800675A1F /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		FAE9B0E51E0387ED00E1847E /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE9B0E81E0387ED00E1847E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAE9B0EA1E0387ED00E1847E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 				FA28009A1E48F02D00CDF278 /* Convenience.swift */,
 				FAE9B1201E0446D500E1847E /* Constants.swift */,
 				FAE9B1221E04474300E1847E /* Client.swift */,
-				FA720B491E25C77800675A1F /* Student.swift */,
+				FA720B491E25C77800675A1F /* StudentInformation.swift */,
 			);
 			name = OTM;
 			sourceTree = "<group>";
@@ -256,7 +256,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Macbook;
 				TargetAttributes = {
 					FAE9B0E41E0387ED00E1847E = {
@@ -336,7 +336,7 @@
 				FA05AF061E4CC4E4003A69E9 /* Alert.swift in Sources */,
 				FA15683A1E097F8F0053D821 /* ListViewController.swift in Sources */,
 				FAE9B0EB1E0387ED00E1847E /* LoginViewController.swift in Sources */,
-				FA720B4A1E25C77800675A1F /* Student.swift in Sources */,
+				FA720B4A1E25C77800675A1F /* StudentInformation.swift in Sources */,
 				FAE9B11A1E04365F00E1847E /* PasswordTextfieldDelegate.swift in Sources */,
 				FAE9B0E91E0387ED00E1847E /* AppDelegate.swift in Sources */,
 				FAE9B1271E04844E00E1847E /* GCDBlackBox.swift in Sources */,
@@ -413,6 +413,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -463,6 +464,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

@@ -48,7 +48,6 @@ extension Client{
             let secureData = newData.subdata(in: range)
             self.convertDataWithCompletionHandler(secureData){(result, error) in
                 func sendError(_ error: String) {
-                    print(error)
                     handler(false, error)
                 }
                 
@@ -68,7 +67,6 @@ extension Client{
                     sendError("Did not receive session ID")
                 }
                 if ((result?["registered"]) != nil){
-                    print("Logged In")
                     handler(true, nil)
                 }
             }
@@ -86,7 +84,6 @@ extension Client{
             let reallyNewData = newData.subdata(in: range)
             self.convertDataWithCompletionHandler(reallyNewData){(result, error) in
                 func sendError(_ error: String) {
-                    print(error)
                     getDataHandler(false, error)
                 }
                 

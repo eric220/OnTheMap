@@ -11,9 +11,18 @@ import UIKit
 
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
     //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityView.hidesWhenStopped = true
+        activityView.stopAnimating()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        refresh()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -22,12 +31,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //buttons
     @IBAction func refreshButton(_ sender: AnyObject) {
-        Client.sharedInstance.getAnnotations{(annotations) -> Void in
-            let mainQ = DispatchQueue.main
-            mainQ.async { () -> Void in
-                
-            }
-        }
+        refresh()
     }
     
     @IBAction func addPinButton(_ sender: AnyObject) {
@@ -44,6 +48,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @IBAction func logoutButton(_ sender: AnyObject) {
+        activityView.startAnimating()
         let b = DispatchQueue.global(qos: .userInitiated)
         b.async {
             Client.sharedInstance.logout(){(response, error) in
@@ -57,7 +62,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         alert = launchAlert(message: "Network Difficulty, Check Network Connection")
                         self.present(alert!, animated: true, completion: nil)
                     } else {
-                        print("logout complete")
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
@@ -97,6 +101,24 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func addPinPage() -> Void{
         let controller = self.storyboard?.instantiateViewController(withIdentifier: "AddPinViewController") as! AddPinViewController
         present(controller, animated: true, completion: nil)
+    }
+    
+    func refresh(){
+        let b = DispatchQueue.global(qos: .userInitiated)
+        b.async {
+            Client.sharedInstance.getAnnotations{(error, annotations) -> Void in
+                guard (error == nil) else{
+                    let alert = launchAlert(message: error!)
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                if annotations != nil {
+                    DispatchQueue.main.async{
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
 
     

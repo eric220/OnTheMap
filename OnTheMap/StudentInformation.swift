@@ -70,10 +70,6 @@ struct StudentInformation {
         }
        return true
     }
-    
-    static func sortByCreatedDate(students: StudentInformation){
-        
-    }
 }
 
 

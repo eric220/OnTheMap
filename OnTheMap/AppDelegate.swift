@@ -39,16 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        print("terminate")
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
     func checkForUserID() {
         if UserDefaults.standard.bool(forKey: "HasUserObjectID") {
-            print("Pin Has Been Placed")
-            print(UserDefaults.standard.value(forKey: "UserObjectID"))
+            print(UserDefaults.standard.value(forKey: "UserObjectID")!)
         } else {
-            print("There is no UserObjectID!")
             UserDefaults.standard.set(nil, forKey: "UserObjectID")
             UserDefaults.standard.set(false, forKey: "HasUserObjectID")
             UserDefaults.standard.synchronize()

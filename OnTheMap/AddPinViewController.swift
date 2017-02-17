@@ -42,20 +42,19 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
             findOnMap()
         } else if (addPin.titleLabel?.text == "Submit?"){
             guard let lat = self.userLocationPoint?.location?.coordinate.latitude else{
-                print("lat")
-                return// use closure??
+                return
             }
             guard let long = self.userLocationPoint?.location?.coordinate.longitude else{
-                print("long")
                 return
             }
             
             let locationTextString = "\((self.userLocationPoint?.locality)!), \((self.userLocationPoint?.administrativeArea)!)."
             
-            let media: String? = linkTextField.text
+            let media = linkTextField.text!
             
-            let alert = launchAlert(message: "Do you want to post: Location: \(locationTextString) and Link: \(linkTextField.text!)")
+            let alert = launchAlert(message: "Do you want to post: Location: \(locationTextString) and Link: \(media)")
             alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
+                print(media)
                 Client.sharedInstance.addStudentPin(lat: lat, long: long, loc: locationTextString, media: media){success in
                     performUIUpdatesOnMain {
                         if (!success){

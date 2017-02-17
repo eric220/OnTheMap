@@ -12,11 +12,17 @@ import MapKit
 class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var MapView: MKMapView!
+    @IBOutlet weak var logoutButton: UIBarButtonItem!
+    @IBOutlet weak var addPinButton: UIBarButtonItem!
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         MapView.delegate = self
+        activityView.hidesWhenStopped = true
+        activityView.stopAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func logoutButton(_ sender: AnyObject) {
+        activityView.startAnimating()
         Client.sharedInstance.logout(){(response, error) in
             var alert: UIAlertController? = nil
             if (error != nil){
@@ -51,7 +58,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 alert = launchAlert(message: "Network Difficulty, Check Network Connection")
                 self.present(alert!, animated: true, completion: nil)
             } else {
-                print("logout complete")
                 self.dismiss(animated: true, completion: nil)
             }
         }
@@ -79,13 +85,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
-                let url = URL(string: toOpen)!
-                if (app.canOpenURL(url as URL)){
-                    let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
-                    controller.webUrl = url as NSURL?
-                    present(controller, animated: true, completion: nil)
-                }else {
-                    print("cannot open url")
+                if let url = URL(string: toOpen) {
+                    if (app.canOpenURL(url as URL)){
+                        let controller = self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+                        controller.webUrl = url as NSURL?
+                        present(controller, animated: true, completion: nil)
+                    }else {
+                        let alert = launchAlert(message: "Url cannot be opened")
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }

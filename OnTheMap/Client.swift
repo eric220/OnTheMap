@@ -48,6 +48,7 @@ class Client: NSObject, MKMapViewDelegate {
     //task manager for tasks
     func taskManager(request: NSMutableURLRequest, handler:@escaping (_ data: AnyObject?, _ error: String?) -> Void) {
         let session = URLSession.shared
+        
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             func sendError(_ error: String) {
                 print(error)
@@ -89,7 +90,7 @@ class Client: NSObject, MKMapViewDelegate {
     }
 
     //post users pin
-    func addStudentPin(lat: Double, long: Double, loc: String, media: String? = Constants.User.mediaUrl, handler:@escaping (_ success: Bool) -> Void){
+    func addStudentPin(lat: Double, long: Double, loc: String, media: String?, handler:@escaping (_ success: Bool) -> Void){
         var request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
 
         if (!UserDefaults.standard.bool(forKey: "HasUserObjectID")){
@@ -100,19 +101,25 @@ class Client: NSObject, MKMapViewDelegate {
             let urlRequest = self.OTMUrlParameter(parameters: parameters, withPathExtension: "/parse/classes/StudentLocation/\(userID!)", withHost: Constants.URL.APIHostParseNoWWW)
             request = NSMutableURLRequest(url: urlRequest)
             request.httpMethod = "PUT"
-        } 
+        }
+        print("The media is:\(media)")
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = "{\"\(Constants.ResponseKeys.uniqueKey)\": \"\(Constants.User.accountKey)\", \"\(Constants.ResponseKeys.firstName)\": \"\(Constants.User.firstName)\", \"\(Constants.ResponseKeys.lastName)\": \"\(Constants.User.lastName)\",\"\(Constants.ResponseKeys.mapString)\": \"\(loc)\", \"\(Constants.ResponseKeys.mediaUrl)\": \"https://udacity.com\",\"\(Constants.ResponseKeys.latitude)\": \(lat), \"\(Constants.ResponseKeys.longitude)\": \(long)}".data(using: String.Encoding.utf8)
-        taskManager(request: request){(data, error) in
+        request.httpBody = "{\"\(Constants.ResponseKeys.uniqueKey)\": \"\(Constants.User.accountKey)\", \"\(Constants.ResponseKeys.firstName)\": \"\(Constants.User.firstName)\", \"\(Constants.ResponseKeys.lastName)\": \"\(Constants.User.lastName)\",\"\(Constants.ResponseKeys.mapString)\": \"\(loc)\", \"\(Constants.ResponseKeys.mediaUrl)\": \"\(media!)\", \"\(Constants.ResponseKeys.latitude)\": \(lat), \"\(Constants.ResponseKeys.longitude)\": \(long)}".data(using: String.Encoding.utf8)
+        
+        taskManager(request: request){(data, error) in //\"https://udacity.com\" \"\(media!)\"
+            guard error == nil else{
+                    handler(false)
+                    return
+            }
             self.convertDataWithCompletionHandler(data as! Data){result, error in
                 guard (error == nil) else{
                     handler(false)
                     return
                 }
                 
-                if let result = result?[Constants.ResponseKeys.objectId]! {//yAlgEu6FyY
+                if let result = result?[Constants.ResponseKeys.objectId]! {
                     UserDefaults.standard.set(result, forKey: "UserObjectID")
                     UserDefaults.standard.set(true, forKey:"HasUserObjectID")
                     handler(true)

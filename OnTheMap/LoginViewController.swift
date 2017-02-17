@@ -14,6 +14,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loginButtonOutlet: UIButton!
     @IBOutlet weak var signIn: UIButton!
     @IBOutlet weak var facebookLogin: UIButton!
+    @IBOutlet weak var loginLabel: UILabel!
+    @IBOutlet weak var logoImage: UIImageView!
     
     let textFieldDelegatePassword = PasswordTextfieldDelegate()
 
@@ -24,6 +26,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = UIColor.orange
         self.passwordTextField.delegate = self
         self.emailTextField.delegate = self
+        self.logoImage.layer.cornerRadius = 8
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,7 +41,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     //buttons
     @IBAction func loginButton(_ sender: AnyObject) {
         //make flash?? Make a UI control function
-        //setUIDisable(sender: loginButtonOutlet)
+        setUIDisable(sender: loginButtonOutlet)
         
         //let email = emailTextField.text
         //let password = passwordTextField.text //need non-redacted value
@@ -48,9 +51,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 if (error != nil){
                     let alert = UIAlertController(title: "Alert", message: "\(error!)", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: {action in
-                        print("hello")
-                        //self.loginButtonOutlet.cancelTracking(with: Any)
-                        //self.setUIEnable()
+                        self.setUIEnable()
                     }))
                     self.present(alert, animated: true, completion:nil)
                 } else {
@@ -67,7 +68,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func loginWithFacebook(_ sender: AnyObject) {
         let alert =  launchAlert(message: "Facebook login not enabled at this time")
         self.present(alert, animated: true, completion:  nil)
-        print("facebookLogin")
     }
     
     //Views
@@ -95,9 +95,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func keyboardWillShow(notification: NSNotification){
-        if passwordTextField.isFirstResponder{ 
-            self.view.frame.origin.y = -50//getKeyboardHeight(notification: notification) * -1
-        }
+            self.view.frame.origin.y = (getKeyboardHeight(notification: notification) * -1.3/2)
     }
     
     func keyboardWillHide(notification: NSNotification){
@@ -110,18 +108,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 private extension LoginViewController {
     func setUIDisable(sender: UIButton){
         if (sender.currentTitle! == "Login"){
-            sender.setTitle("Logging In", for: UIControlState.normal)
-            UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat, .autoreverse], animations: {sender.alpha = 0.2}, completion: nil)
+            self.loginLabel.text = "Logging In"
+            UIView.animate(withDuration: 0.4, delay: 0, options: [.repeat, .autoreverse], animations: {self.loginLabel.alpha = 0.2}, completion: nil)
             passwordTextField.isEnabled = false
             emailTextField.isEnabled = false
             signIn.isEnabled = false
             facebookLogin.isEnabled = false
+            sender.isEnabled = false
         }
     }
     
     func setUIEnable(){ 
-        loginButtonOutlet.alpha = 1
-        loginButtonOutlet.setTitle("Login", for: UIControlState.normal)
+        self.loginLabel.alpha = 1
+        self.loginLabel.text = "Login to Udacity"
         loginButtonOutlet.isEnabled = true
         passwordTextField.isEnabled = true
         emailTextField.isEnabled = true
