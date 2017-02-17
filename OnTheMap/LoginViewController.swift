@@ -43,10 +43,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         //make flash?? Make a UI control function
         setUIDisable(sender: loginButtonOutlet)
         
-        //let email = emailTextField.text
-        //let password = passwordTextField.text //need non-redacted value
+        let email = emailTextField.text
+        let password = passwordTextField.text //need non-redacted value
 
-        Client.sharedInstance.authenticateWithUserData(email: Constants.ParameterKeys.userName, password: Constants.ParameterKeys.password){(success, error) in
+        Client.sharedInstance.authenticateWithUserData(email: email!, password: password!){(success, error) in
             performUIUpdatesOnMain {
                 if (error != nil){
                     let alert = UIAlertController(title: "Alert", message: "\(error!)", preferredStyle: UIAlertControllerStyle.alert)

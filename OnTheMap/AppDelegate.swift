@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func checkForUserID() {
         if UserDefaults.standard.bool(forKey: "HasUserObjectID") {
-            print(UserDefaults.standard.value(forKey: "UserObjectID")!)
         } else {
             UserDefaults.standard.set(nil, forKey: "UserObjectID")
             UserDefaults.standard.set(false, forKey: "HasUserObjectID")

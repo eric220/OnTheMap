@@ -54,7 +54,6 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
             
             let alert = launchAlert(message: "Do you want to post: Location: \(locationTextString) and Link: \(media)")
             alert.addAction(UIAlertAction(title: "Post", style: UIAlertActionStyle.default, handler: {action in
-                print(media)
                 Client.sharedInstance.addStudentPin(lat: lat, long: long, loc: locationTextString, media: media){success in
                     performUIUpdatesOnMain {
                         if (!success){

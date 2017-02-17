@@ -51,7 +51,6 @@ class Client: NSObject, MKMapViewDelegate {
         
         let task = session.dataTask(with: request as URLRequest) { data, response, error in
             func sendError(_ error: String) {
-                print(error)
                 handler(nil, error)
             }
             
@@ -102,7 +101,6 @@ class Client: NSObject, MKMapViewDelegate {
             request = NSMutableURLRequest(url: urlRequest)
             request.httpMethod = "PUT"
         }
-        print("The media is:\(media)")
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

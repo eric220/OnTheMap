@@ -11,12 +11,6 @@ import UIKit
 
 struct Constants {
     
-    struct ParameterKeys{
-        static let userName = "criteser2@gmail.com"
-        static let password = "susancolt45"
-        
-    }
-    
     struct URL {
         static let APIScheme = "https"
         static let APIHostUdacity = "www.udacity.com"

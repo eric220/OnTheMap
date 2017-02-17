@@ -32,7 +32,6 @@ class PasswordTextfieldDelegate: NSObject, UITextFieldDelegate {
     
     func passwordTextStore(c: String){
         password += c
-        print(password)
     }
     
 }
