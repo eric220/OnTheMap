@@ -17,8 +17,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var facebookLogin: UIButton!
     @IBOutlet weak var loginLabel: UILabel!
     @IBOutlet weak var logoImage: UIImageView!
-    
-    let textFieldDelegatePassword = PasswordTextfieldDelegate()
 
     
     //lifecycle

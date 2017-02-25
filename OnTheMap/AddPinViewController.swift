@@ -21,13 +21,13 @@ class AddPinViewController: UIViewController, UITextFieldDelegate, MKMapViewDele
     var userLocationPoint: CLPlacemark?
     
     //set delegate
-    let linkTextfieldDelegate = LinkTextFieldDelegate()
+    //let linkTextfieldDelegate = LinkTextFieldDelegate()
     
     //lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         linkTextField.isEnabled = false
-        linkTextField.delegate = linkTextfieldDelegate
+        linkTextField.delegate = self //linkTextfieldDelegate
         locationTextField.delegate = self
         activityIndicator.hidesWhenStopped = true
     }
